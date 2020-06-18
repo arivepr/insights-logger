@@ -4,9 +4,6 @@ import React, {useEffect, memo} from 'react';
 const LoggerRow = memo(({index, style, data}) => {
     const  {parsedData, searchedInput, loggerRef} = data;
 
-    console.log('This is our ref obj: ', loggerRef);
-    console.log('This is our searched row:', searchedInput);
-
     const lookForItemRow = (searchedInput) => {
         console.log('looking for item row: ', searchedInput);
         const searchedIndex = parseInt(searchedInput);
