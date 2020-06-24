@@ -1,0 +1,16 @@
+@import '~@red-hat-insights/insights-frontend-components/Utilities/_mixins';
+@import '~@patternfly/patternfly/sass-utilities/_all';
+
+
+.loggerHeaderBar {
+    margin: var(--pf-global--spacer--sm);
+}
+
+.loggerHeaderDiv {
+    background: var(--pf-global--BackgroundColor--200);
+    width: 800;
+}
+
+.loggerStack {
+    width: 800;
+}

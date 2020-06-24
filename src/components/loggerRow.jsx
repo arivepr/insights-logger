@@ -1,4 +1,6 @@
 import React, {useEffect, memo} from 'react';
+import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
+
 
 
 const LoggerRow = memo(({index, style, data}) => {

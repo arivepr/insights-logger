@@ -1,13 +1,15 @@
 import React, {useEffect, useState, memo, useRef} from 'react';
 import { FixedSizeList as List, areEqual} from "react-window";
+// import { FixedSizeGrid as Grid } from 'react-window'; // This is something that we'll need for transition to more complete logger
 import LoggerRow from '../components/loggerRow';
+import LoggerToolbar from './loggerToolbar';
 import memoize from 'memoize-one';
-import {TextInput, Card, CardTitle, CardBody, CardFooter, CardHeader, Button} from "@patternfly/react-core";
-import {Autosizer} from 'react-virtualized-auto-sizer';
+import { Toolbar , ToolbarItem, ToolbarContent } from '@patternfly/react-core';
+import { Stack, StackItem, TextInput,Button } from '@patternfly/react-core';
+import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
 import MLParser from './mlParser';
 import YAML from 'yaml';
 // import './styles/styles.css';
-import "@patternfly/react-core/dist/styles/base.css";
 
 
 const cleanUpStringArray = (data) => {
@@ -49,7 +51,7 @@ const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef) => (
 const Logger = memo(({logTitle, data, isPayloadConsole}) => {
     const [parsedData, setParsedData] = useState([]);
     const [searchedInput, setSearchedInput] = useState('');
-    const [foundInputIndexes, setFoundInputIndexes] = useState('');
+    const [foundInputIndexes, setFoundInputIndexes] = useState([]); // Meant to be used to jump back and forth between instances of searched keyword
     const loggerRef = React.useRef();
     const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef); 
 
@@ -102,25 +104,19 @@ const Logger = memo(({logTitle, data, isPayloadConsole}) => {
         return true; 
     }
 
-    console.log(parsedData);
-
     return(
         <>
-            <Card style={{width: "600px", margin: "100px"}}> 
-                <CardHeader>
-                    <CardTitle>
-                        <div className='loggerHeaderDiv'>
-                            {logTitle}
-                            <TextInput value={searchedInput} type="text" onChange={handleInputChange}
-                                aria-label="Search" style={{width:"200px", marginLeft:"150px"}}/>
-                            <Button variant="primary" onClick={lookForKeywordRow}>Search</Button>
-                        </div>   
-                    </CardTitle> 
-                </CardHeader>
-                <CardBody>
+            <Stack hasGutter>
+                <StackItem>
+                    <Flex className='loggerHeaderBar'>
+                        {logTitle}
+                        <LoggerToolbar />
+                    </Flex>
+                </StackItem>
+                <StackItem>
                     <List 
                         height={400}
-                        width={600}
+                        width={800}
                         itemSize={30}
                         itemCount={parsedData.length}
                         itemData={dataToRender}
@@ -130,8 +126,8 @@ const Logger = memo(({logTitle, data, isPayloadConsole}) => {
                     >
                         {LoggerRow}
                     </List>
-                </CardBody>
-            </Card>
+                </StackItem>
+            </Stack>
         </>
     );
 }, areEqual);
