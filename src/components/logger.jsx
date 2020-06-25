@@ -1,6 +1,6 @@
 import React, {useEffect, useState, memo, useRef} from 'react';
 import { FixedSizeList as List, areEqual} from "react-window";
-// import { FixedSizeGrid as Grid } from 'react-window'; // This is something that we'll need for transition to more complete logger
+import { FixedSizeGrid as Grid } from 'react-window'; // This is something that we'll need for transition to more complete logger
 import LoggerRow from '../components/loggerRow';
 import LoggerToolbar from './loggerToolbar';
 import memoize from 'memoize-one';
@@ -9,7 +9,14 @@ import { Stack, StackItem, TextInput,Button } from '@patternfly/react-core';
 import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
 import MLParser from './mlParser';
 import YAML from 'yaml';
-// import './styles/styles.css';
+
+import './styles/logger.styles.scss';
+import './styles/styles.css';
+import "@patternfly/react-core/dist/styles/base.css";
+
+// Will export these to a separate file later for all constant variables for the logger
+const LOGGER_COLUMNS_AMOUNT = 3;
+
 
 
 const cleanUpStringArray = (data) => {
@@ -69,6 +76,7 @@ const Logger = memo(({logTitle, data, isPayloadConsole}) => {
 
 
     const lookForKeywordRow = () => {
+        // Hacky solution to our search problem. This will have to be reworked for jumping between instances of found strings. 
         let rowIndexCounter = 0;
         
         if(!searchedInput == ""){
@@ -108,9 +116,14 @@ const Logger = memo(({logTitle, data, isPayloadConsole}) => {
         <>
             <Stack hasGutter>
                 <StackItem>
-                    <Flex className='loggerHeaderBar'>
-                        {logTitle}
-                        <LoggerToolbar />
+                    <Flex className='loggerHeaderBar' flex={{default: 'flex_4'}} spaceItems={{default: 'spaceItems4xl'}} >
+                        <FlexItem> {logTitle} </FlexItem>
+                        <FlexItem>
+                            <LoggerToolbar 
+                                setSearchedInput={setSearchedInput}    
+                                foundInputIndexes={foundInputIndexes}
+                            />
+                        </FlexItem>    
                     </Flex>
                 </StackItem>
                 <StackItem>
@@ -122,7 +135,6 @@ const Logger = memo(({logTitle, data, isPayloadConsole}) => {
                         itemData={dataToRender}
                         overscanCount={1}
                         ref={loggerRef}
-                        userisScrolling
                     >
                         {LoggerRow}
                     </List>

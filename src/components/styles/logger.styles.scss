@@ -1,9 +1,9 @@
-@import '~@red-hat-insights/insights-frontend-components/Utilities/_mixins';
-@import '~@patternfly/patternfly/sass-utilities/_all';
+// @import '@red-hat-insights/insights-frontend-components/Utilities/_mixins';
+@import '@patternfly/patternfly/sass-utilities/_all';
 
 
 .loggerHeaderBar {
-    margin: var(--pf-global--spacer--sm);
+    margin: 50px;
 }
 
 .loggerHeaderDiv {
