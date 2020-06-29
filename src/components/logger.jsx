@@ -1,12 +1,13 @@
 import React, {useEffect, useState, memo, useRef} from 'react';
 import { FixedSizeList as List, areEqual} from "react-window";
-import { FixedSizeGrid as Grid } from 'react-window'; // This is something that we'll need for transition to more complete logger
+import { VariableSizeGrid as Grid } from 'react-window'; // This is something that we'll need for transition to more complete logger
 import LoggerRow from '../components/loggerRow';
 import LoggerToolbar from './loggerToolbar';
 import memoize from 'memoize-one';
 import { Toolbar , ToolbarItem, ToolbarContent } from '@patternfly/react-core';
 import { Stack, StackItem, TextInput,Button } from '@patternfly/react-core';
 import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
+import Constants from '../utils/constants';
 import MLParser from './mlParser';
 import YAML from 'yaml';
 
@@ -16,8 +17,13 @@ import "@patternfly/react-core/dist/styles/base.css";
 
 // Will export these to a separate file later for all constant variables for the logger
 const LOGGER_COLUMNS_AMOUNT = 3;
+const LOGGER_DATA_COLUMN_INDEX = 1;
+const LOGGER_INDEX_COLUMN_WIDTH = 50;
+const LOGGER_DATA_COLUMN_WIDTH = 850;
+const LOGGER_STAMP_COLUMN_WIDTH = 100;
+const LOGGER_ROW_HEIGHT = 50;
 
-
+// const {LOGGER_COLUMNS_AMOUNT, LOGGER_INDEX_COLUMN_WIDTH, LOGGER_DATA_COLUMN_WIDTH, LOGGER_ROW_HEIGHT} = Constants;
 
 const cleanUpStringArray = (data) => {
     const cleaninRegEx = new RegExp('(\s+\\+[a-zA-Z])|"|(\n\s)');
@@ -112,24 +118,53 @@ const Logger = memo(({logTitle, data, isPayloadConsole}) => {
         return true; 
     }
 
+
+    const setColumnWidth = (index) => {
+        const adjustedColumnWidth = index === 0 || index == 2
+            ?   LOGGER_INDEX_COLUMN_WIDTH // can use same size for both timestamp and index
+            :   LOGGER_DATA_COLUMN_WIDTH;
+        
+        return adjustedColumnWidth;
+    }
+
+    
+    const setRowHeight = (index) => {
+        const adjustedRowHeight = index % 2 === 0
+            ? LOGGER_ROW_HEIGHT
+            : LOGGER_ROW_HEIGHT;
+
+        return adjustedRowHeight;
+    }
+    
+    // Gotta figure out how to use itemSize to my advantage
     return(
         <>
-            <Stack hasGutter>
+            <Stack className='logger-stack' hasGutter>
                 <StackItem>
-                    <Flex className='loggerHeaderBar' flex={{default: 'flex_4'}} spaceItems={{default: 'spaceItems4xl'}} >
-                        <FlexItem> {logTitle} </FlexItem>
-                        <FlexItem>
-                            <LoggerToolbar 
-                                setSearchedInput={setSearchedInput}    
-                                foundInputIndexes={foundInputIndexes}
-                            />
-                        </FlexItem>    
+                    <Flex className='ins-loggerToolbar' flex={{default: 'flex_4'}}  direction={{default: 'column'}}>
+                        <Flex>
+                            <FlexItem className='ins-loggerToolbar__title'> {logTitle} </FlexItem>
+                        </Flex>
+                        <Flex>
+                            <FlexItem>
+                                <LoggerToolbar 
+                                    className='ins-loggerToolbar__search'
+                                    setSearchedInput={setSearchedInput}    
+                                    foundInputIndexes={foundInputIndexes}
+                                />
+                            </FlexItem>   
+                        </Flex> 
                     </Flex>
                 </StackItem>
                 <StackItem>
-                    <List 
-                        height={400}
-                        width={800}
+                    <Grid 
+                        className='loggerGrid'
+                        rowCount={parsedData.length}
+                        columnCount={LOGGER_COLUMNS_AMOUNT}
+                        columnWidth={index => setColumnWidth(index)}
+                        rowHeight={index => setRowHeight(index)}
+                        height={600}
+                        width={1000}
                         itemSize={30}
                         itemCount={parsedData.length}
                         itemData={dataToRender}
@@ -137,7 +172,7 @@ const Logger = memo(({logTitle, data, isPayloadConsole}) => {
                         ref={loggerRef}
                     >
                         {LoggerRow}
-                    </List>
+                    </Grid>
                 </StackItem>
             </Stack>
         </>

@@ -7,14 +7,15 @@ import "@patternfly/react-core/dist/styles/base.css";
 
 const LoggerToolbar = (props) => {
     const {setSearchedInput} = props;
+    
 
 
     const items =
         <>
             <ToolbarItem>
                 <InputGroup>
-                    <TextInput name='textInput1' id='textInput1' type='search' arial-label='search-input-label'/>
-                    <Button variant={ButtonVariant.control} aria-label="search button for search input">
+                    <TextInput name='textInput1' id='textInput1' type='search' arial-label='search-input-label' placeholder='Search...'/>
+                    <Button variant='control' aria-label="search button for search input">
                         <SearchIcon />
                     </Button>
                 </InputGroup>
