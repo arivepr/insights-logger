@@ -1,5 +1,46 @@
 @import '@patternfly/patternfly/sass-utilities/_all';
 
-.ins-logger-tool-bar {
-    width: 1000px;
+
+:root {
+    --ins-toolbar-background-color: var(--pf-global--palette--black-300);
+    --ins-toolbar-border-color: var(--pf-global--palette--black-200);
+    --ins-toolbar-color: var(--pf-global--palette--black-100);
+}
+
+.ins-logger-toolbar{
+    background: var(--ins-toolbar-color);
+    border-style: solid;
+    border-width: 1px 1px;
+    border-color: var(--ins-toolbar-border-color);
+    height: 25px;
+    opacity: .8;
+}
+
+.ins-logger-toolbar__header {
+    width: 500px;
+    margin-right: 500px;
+}
+
+.toolbar__search {
+    width: 250px;
+    height: 25px;
+    margin-left: 75px;
+    background: var(--ins-toolbar-color);
+};
+
+.toolbar--icons {
+    width: 20px;
+    height: 20px;
+}
+
+.toolbar__search-btn {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 100px;
+}
+
+.toolbar--text-input {
+    background-color: green;
+    margin-right: 500px;
+    width: 3000px;
 }

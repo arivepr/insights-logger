@@ -1,6 +1,9 @@
 import React, {useEffect, memo} from 'react';
 import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
 import Constants from '../utils/constants';
+import classNames from 'classnames';
+
+import './styles/loggerRow.styles.scss';
 
 /* 
     This component (by design of react-window) does not care about what this cell is, the indexes are sent straight from the parent component. 
@@ -21,20 +24,21 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
 
 
     const getData = (colIndex, rowIndex) => {
-        console.log('Testing our data retrieval: ', colIndex, rowIndex);
-        console.log('Our two constants are: ', LOGGER_DATA_COLUMN_ID);
-        console.log(LOGGER_INDEX_COLUMN_ID);
-               
-
        return colIndex == LOGGER_DATA_COLUMN_ID ? parsedData[rowIndex]
             : (colIndex == LOGGER_INDEX_COLUMN_ID) ? rowIndex
             : '' ;// this would eventually be replaced with time stamp data    
     } 
 
-    const setStyle = (columnIndex, rowIndex) => {
-        // Depending on what column it is, give a specific style
-        // if there is a searchedRow, verify if this is the one, and style accordingly
-    }
+    const cellClassname = classNames( 'ins-logger-cell', {
+        'cell--index-column': columnIndex == 0,
+        'cell--data-column': columnIndex == 1  
+    });
+
+    const cellSpanClassname = classNames({
+        'cell__index': columnIndex == 0,
+        'cell__data': columnIndex == 1
+    });
+    
 
 
     // lookForItemRow(searchedInput);
@@ -45,11 +49,8 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     // }, []);
 
     return(
-        <div style={style}>
-            {/* {rowIndex}:{"    "}{parsedData[rowIndex]} */}
-            {/* test: {rowIndex}, {columnIndex} */}
-            {/* {(columnIndex, rowIndex) => getData(columnIndex, rowIndex)} */}
-            {getData(columnIndex, rowIndex)}
+        <div style={style} className={cellClassname}>
+            <span className={cellSpanClassname}>{getData(columnIndex, rowIndex)}</span>
         </div>
     )
 });

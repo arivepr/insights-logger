@@ -5,14 +5,18 @@
     --spacing-unit: 6px;
     --ins-index-width: 200px;
     --ins-parsed-data-width: 700px;
-    --pf-global--BackgroundColor--white: #FFFFFF
+    --pf-global--BackgroundColor--white: #FFFFFF;
+    --ins-root-background-color--light: var(--pf-global--palette--black-300)
 }
-.ins-loggerToolbar {
-    background: var(--pf-global--palette--black-100);
-    margin-bottom: var(--pf-global--spacer--lg);
-    margin-top: var(--pf-global--spacer--lg);
-    border: 1px;
+
+.ins-logger-root-layout {
+    background: var(--pf-global--BackgroundColor--white);
     width: 1000px;
+}
+
+.logger__toolbar {
+    background: var(--ins-root-background-color--light);
+    border: thin;
 }
 
 .ins-loggerToolbar__search {
@@ -30,6 +34,5 @@
     width: 800;
 }
 
-.loggerStack {
-    width: 800;
-}
+
+

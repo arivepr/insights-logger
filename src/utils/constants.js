@@ -9,5 +9,19 @@ const Constants = {
     LOGGER_ROW_HEIGHT: '10'
 };
 
+                {/* <Flex className='ins-loggerToolbar' direction={{default: 'column'}}>
+                        <Flex>
+                            <FlexItem className='ins-loggerToolbar__title'> {logTitle} </FlexItem>
+                        </Flex>
+                        <Flex>
+                            <FlexItem>
+                                <LoggerToolbar 
+                                    className='ins-loggerToolbar__search'
+                                    setSearchedInput={setSearchedInput}    
+                                    foundInputIndexes={foundInputIndexes}
+                                />
+                            </FlexItem>   
+                        </Flex> 
+                    </Flex> */}
 
 export default Constants;

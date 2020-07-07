@@ -1,0 +1,53 @@
+@import '@patternfly/patternfly/sass-utilities/_all';
+
+
+:root {
+    --index-column-background-color: var(--pf-global--palette--black-300);
+    --index-font-color: var(--pf-global--Color--200);
+    --data-font-color: var(--pf-global--Color--100);
+    --data-column-background-color: var(--pf-global--BackgroundColor--100);
+    --logger-root-font-color: white;
+    --logger-root-font-color-dark: black; 
+    --sm-font-size: var(--pf-global--FontSize--sm);
+    --md-font-size: var(--pf-global--FontSize--md);
+    --logger-root-background-color: var(--pf-global--palette--black-100);
+}
+
+.ins-logger-cell {
+    background: var(--data-column-background-color);
+    position: absolute;
+}
+
+.ins-logger-cell__id-column {
+    background: var(--index-column-background-color);
+    right: 50px;
+    font-size: var(--sm-font-size);
+    font-weight: 400;
+}
+
+.cell--data-column {
+    background: var(--logger-root-background-color);
+    font-size: var(--md-font-size);
+}
+
+.cell--index-column {
+    color: var(--index-font-color);
+    background: var(--index-column-background-color);
+    right: 0;
+    font-weight: 400;
+}
+
+.cell__index {
+    font-size: var(--sm-font-size);
+    margin: 0 40% 0 60%;
+    right: 0;
+}
+
+.cell__data {
+    margin: 0 20% 0 2.5%;
+    color: var(--data-font-color);
+}
+
+.ins-logger-cell--searched-row {
+    background: yellow;
+}
