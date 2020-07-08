@@ -2,6 +2,7 @@ import React, {useEffect, useState, memo, useRef} from 'react';
 import { VariableSizeGrid as Grid, areEqual } from 'react-window'; // This is something that we'll need for transition to more complete logger
 import LoggerRow from '../components/loggerRow';
 import LoggerToolbar from './loggerToolbar';
+import LoggerHeader from './loggerHeader';
 import memoize from 'memoize-one';
 import { Stack, StackItem, TextInput,Button } from '@patternfly/react-core';
 import Constants from '../utils/constants';
@@ -15,7 +16,7 @@ import "@patternfly/patternfly/patternfly.css";
 // Will export these to a separate file later for all constant variables for the logger
 const LOGGER_COLUMNS_AMOUNT = 3;
 const LOGGER_DATA_COLUMN_INDEX = 1;
-const LOGGER_INDEX_COLUMN_WIDTH = 75;
+const LOGGER_INDEX_COLUMN_WIDTH = 80;
 const LOGGER_DATA_COLUMN_WIDTH = 800;
 const LOGGER_STAMP_COLUMN_WIDTH = 100;
 const LOGGER_ROW_HEIGHT = 50;
@@ -58,13 +59,15 @@ const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef) => (
 }));
 
 // includes toolbar will be a boolean flag to check for before adding a toolbar to the logger (need to figure out what the best logic for this would be)
-const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole}) => { 
+const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searchedKeyword}) => { 
     const [parsedData, setParsedData] = useState([]);
     const [searchedInput, setSearchedInput] = useState('');
     const [foundInputIndexes, setFoundInputIndexes] = useState([]); // Meant to be used to jump back and forth between instances of searched keyword
     const loggerRef = React.useRef();
     const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef); 
 
+    // Need to make sure to use complete separate word for search. 
+    // Only the action bottons on the toolbar will look for these instances of searches. 
 
     useEffect(() => {
         isPayloadConsole 
@@ -73,18 +76,11 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole}) => {
     }, []);
 
 
-    const handleInputChange = (inputValue) => {
-        setSearchedInput(inputValue);
-    }
-
-
     const lookForKeywordRow = () => {
         // Hacky solution to our search problem. This will have to be reworked for jumping between instances of found strings. 
         let rowIndexCounter = 0;
         
         if(!searchedInput == ""){
-            console.log('This is my searched input: ', searchedInput);
-
             for(const row of parsedData){
                 const keywordIndexPosition = row.search(searchedInput)
                 const foundFlag = keywordIndexPosition === -1 
@@ -135,11 +131,16 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole}) => {
     return(
         <>
             <div className='ins-logger-root-layout' hasGutter>
+                <div className='logger__header'>
+                    <LoggerHeader 
+                        setSearchedInput={setSearchedInput}
+                    />
+                </div>
                 <div className='logger__toolbar'> 
                     <LoggerToolbar />
                 </div>
-                <div className='logger__grid'>
                     <Grid 
+                        className='logger__grid'
                         rowCount={parsedData.length}
                         columnCount={LOGGER_COLUMNS_AMOUNT}
                         columnWidth={index => setColumnWidth(index)}
@@ -154,7 +155,6 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole}) => {
                     >
                         {LoggerRow}
                     </Grid>
-                </div>
             </div>
         </>
     );

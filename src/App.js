@@ -6,6 +6,7 @@ import {Card, CardTitle, CardBody, CardFooter, CardHeader} from "@patternfly/rea
 
 // import './App.css';
 
+// Will use this component to run a demo application for the logger component. 
 function App() {
   return (
     <div className="App">

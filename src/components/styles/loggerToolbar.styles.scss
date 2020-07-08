@@ -5,6 +5,8 @@
     --ins-toolbar-background-color: var(--pf-global--palette--black-300);
     --ins-toolbar-border-color: var(--pf-global--palette--black-200);
     --ins-toolbar-color: var(--pf-global--palette--black-100);
+    --ins--toolbar-icon-action-color: var(--pf-global--info-color--200);
+    --ins--toolbar-font-action-color: var(--pf-global--BackgroundColor--100);
 }
 
 .ins-logger-toolbar{
@@ -12,32 +14,46 @@
     border-style: solid;
     border-width: 1px 1px;
     border-color: var(--ins-toolbar-border-color);
+    height: 36px;
+}
+
+.toolbar__action-buttons {
+    height: 36px;
+    // position: absolute;
+    padding: 7.5px 24px 0px 24px;
+    left: 0;
+}
+
+
+.toolbar__icons {
+    width: 40px;
     height: 25px;
-    opacity: .8;
+    padding: 12px 5px 0 5px;
+    margin-bottom: 5px; 
 }
 
-.ins-logger-toolbar__header {
-    width: 500px;
-    margin-right: 500px;
+.toolbar__icons:hover {
+    border-style: solid;
+    border-width: 1px 1px;
+    border-color: var(--ins-toolbar-border-color);
 }
 
-.toolbar__search {
-    width: 250px;
-    height: 25px;
-    margin-left: 75px;
-    background: var(--ins-toolbar-color);
-};
 
-.toolbar--icons {
-    width: 20px;
-    height: 20px;
+#lookUp:active, #lookDown:active, #pageUp:active, #pageDown:active {
+    padding: 0 6px 0 6px;
+    background-color: var(--ins--toolbar-icon-action-color);
+    color: var(--ins--toolbar-font-action-color);
 }
 
-.toolbar__search-btn {
-    width: 20px;
-    height: 20px;
-    margin-bottom: 100px;
+.toolbar--left-hand {
+    float: left;
+
 }
+
+.toolbar--right-hand {
+    float: right;
+}
+
 
 .toolbar--text-input {
     background-color: green;

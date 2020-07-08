@@ -11,6 +11,7 @@
     --sm-font-size: var(--pf-global--FontSize--sm);
     --md-font-size: var(--pf-global--FontSize--md);
     --logger-root-background-color: var(--pf-global--palette--black-100);
+    --higlight-row-color: var(--pf-global--BackgroundColor--200);
 }
 
 .ins-logger-cell {
@@ -28,6 +29,18 @@
 .cell--data-column {
     background: var(--logger-root-background-color);
     font-size: var(--md-font-size);
+}
+
+.cell--data-column:hover {
+    background: var(--higlight-row-color);
+    font-size: 105%;
+}
+
+
+
+.cell--data-column:active {
+    background: var(--data-column-background-color);
+    font-size: 100%;
 }
 
 .cell--index-column {

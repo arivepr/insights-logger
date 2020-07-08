@@ -1,4 +1,4 @@
-import React, {useEffect, memo} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
 import Constants from '../utils/constants';
 import classNames from 'classnames';
@@ -13,6 +13,7 @@ import './styles/loggerRow.styles.scss';
 const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     const {parsedData, searchedInput, loggerRef} = data;
     const {LOGGER_DATA_COLUMN_ID, LOGGER_INDEX_COLUMN_ID} = Constants;
+    const {isHiglighted, setIsHiglighted} = useState(false);
 
     const lookForItemRow = (searchedInput) => {
         console.log('looking for item row: ', searchedInput);
@@ -28,6 +29,15 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
             : (colIndex == LOGGER_INDEX_COLUMN_ID) ? rowIndex
             : '' ;// this would eventually be replaced with time stamp data    
     } 
+
+
+    const highlightRow = () => {
+        console.log('Test completed!');
+    }
+
+    const highlightText = () => {
+        console.log('Second test completed!!!');
+    }
 
     const cellClassname = classNames( 'ins-logger-cell', {
         'cell--index-column': columnIndex == 0,
@@ -49,8 +59,14 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     // }, []);
 
     return(
-        <div style={style} className={cellClassname}>
-            <span className={cellSpanClassname}>{getData(columnIndex, rowIndex)}</span>
+        <div style={style} 
+            className={cellClassname}
+            onClick={highlightRow}>
+            <span 
+                className={cellSpanClassname}
+                onClick={highlightText}>
+                {getData(columnIndex, rowIndex)}
+            </span>
         </div>
     )
 });
