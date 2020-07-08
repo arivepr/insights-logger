@@ -8,38 +8,29 @@ import './styles/loggerHeader.styles.scss';
 
 
 const LoggerHeader = ({setSearchedInput}) => {
-    let searchInput = '';
+    const [userInput, setUserInput] = useState('')
+    let value = userInput;
 
-
-    const handleChange = (input) => {
-        searchInput+= input;
+    const handleChange = (value) => {
+        setUserInput(value);
     }
 
     const handleSubmit = () => {
-        setSearchedInput(searchInput);
-        console.log('This is now my searched input: ', searchInput)
+        setSearchedInput(userInput);
+        console.log('This is now my searched input: ', userInput)
     }
 
     return (
         <>
-            {/* <TextInput 
+            <TextInput 
                 type='text' 
-                value={searchInput} 
+                value={value} 
                 onChange={handleChange} 
                 className='ins-logger-header__search'    
-                placeholder='Search...' 
-            /> */}
-            <input 
-                type='text' 
-                value={searchInput} 
-                onChange={handleChange} 
-                className='ins-logger-header__search'    
-                placeholder='Search...' 
-                variant='control'
             />
             <Button
                 onClick={handleSubmit}
-                className='header__search-btn'
+                className='ins-header__btn'
                 variant='control'
             >
                 <SearchIcon />

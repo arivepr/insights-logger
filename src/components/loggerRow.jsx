@@ -1,8 +1,7 @@
 import React, {useEffect, useState, memo} from 'react';
 import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
-import Constants from '../utils/constants';
+import {LOGGER_DATA_COLUMN_ID, LOGGER_INDEX_COLUMN_ID} from '../utils/constants';
 import classNames from 'classnames';
-
 import './styles/loggerRow.styles.scss';
 
 /* 
@@ -12,7 +11,7 @@ import './styles/loggerRow.styles.scss';
 
 const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     const {parsedData, searchedInput, loggerRef} = data;
-    const {LOGGER_DATA_COLUMN_ID, LOGGER_INDEX_COLUMN_ID} = Constants;
+    // const {LOGGER_DATA_COLUMN_ID, LOGGER_INDEX_COLUMN_ID} = Constants;
     const {isHiglighted, setIsHiglighted} = useState(false);
 
     const lookForItemRow = (searchedInput) => {

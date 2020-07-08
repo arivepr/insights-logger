@@ -38,8 +38,7 @@
 }
 
 
-#lookUp:active, #lookDown:active, #pageUp:active, #pageDown:active {
-    // padding: 0 6px 0 6px;
+#lookUp:active, #lookDown:active, #pageUp:active, #pageDown:active, #skipUp:active, #skipDown:active {
     background-color: var(--ins--toolbar-icon-action-color);
     color: var(--ins--toolbar-font-action-color);
 }

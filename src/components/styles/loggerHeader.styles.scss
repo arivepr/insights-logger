@@ -9,7 +9,15 @@
     height: 36px;
 }
 
-.header__search-btn {
+.ins-logger-header__search:focus {
+    padding-top: 5px;
+}
+
+.ins-header__btn {
     width: 40px;
     height: 36px;
+}
+
+.ins-header__btn:active {
+    border: 1px 1px;
 }

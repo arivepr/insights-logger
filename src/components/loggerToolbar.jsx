@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Toolbar , ToolbarItem, ToolbarContent } from '@patternfly/react-core';
 import { Button, ButtonVariant, InputGroup, TextInput } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
-import { AngleLeftIcon, AngleRightIcon, AngleDoubleDownIcon, AngleDoubleUpIcon } from '@patternfly/react-icons';
+import { AngleLeftIcon, AngleRightIcon, AngleDownIcon, AngleUpIcon, AngleDoubleDownIcon, AngleDoubleUpIcon } from '@patternfly/react-icons';
 import './styles/loggerToolbar.styles.scss';
 // import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/patternfly.css";
@@ -35,6 +35,8 @@ const LoggerToolbar = (props) => {
                     <AngleRightIcon className='toolbar__icons toolbar--left-hand' id='lookDown'/>
                     <AngleDoubleUpIcon className='toolbar__icons toolbar--right-hand' id='pageUp'/>
                     <AngleDoubleDownIcon className='toolbar__icons toolbar--right-hand' id='pageDown'/>
+                    <AngleUpIcon className='toolbar__icons toolbar--right-hand' id='skipUp'/>
+                    <AngleDownIcon className='toolbar__icons toolbar--right-hand' id='skipDown'/>
             </div>
         </>
     );

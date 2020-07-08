@@ -4,8 +4,7 @@ import LoggerRow from '../components/loggerRow';
 import LoggerToolbar from './loggerToolbar';
 import LoggerHeader from './loggerHeader';
 import memoize from 'memoize-one';
-import { Stack, StackItem, TextInput,Button } from '@patternfly/react-core';
-import Constants from '../utils/constants';
+import {LOGGER_COLUMNS_AMOUNT, LOGGER_INDEX_COLUMN_WIDTH, LOGGER_DATA_COLUMN_WIDTH, LOGGER_ROW_HEIGHT, LOGGER_STAMP_COLUMN_WIDTH} from '../utils/constants';
 import MLParser from './mlParser';
 import YAML from 'yaml';
 import './styles/logger.styles.scss';
@@ -13,15 +12,6 @@ import './styles/styles.css';
 import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/patternfly.css";
 
-// Will export these to a separate file later for all constant variables for the logger
-const LOGGER_COLUMNS_AMOUNT = 3;
-const LOGGER_DATA_COLUMN_INDEX = 1;
-const LOGGER_INDEX_COLUMN_WIDTH = 80;
-const LOGGER_DATA_COLUMN_WIDTH = 800;
-const LOGGER_STAMP_COLUMN_WIDTH = 102;
-const LOGGER_ROW_HEIGHT = 50;
-
-// const {LOGGER_COLUMNS_AMOUNT, LOGGER_INDEX_COLUMN_WIDTH, LOGGER_DATA_COLUMN_WIDTH, LOGGER_ROW_HEIGHT} = Constants;
 
 const cleanUpStringArray = (data) => {
     const cleaninRegEx = new RegExp('(\s+\\+[a-zA-Z])|"|(\n\s)');
@@ -112,16 +102,10 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
     }
 
 
-    // const setColumnWidth = (index) => {
-    //     return index === 0 || index == 2
-    //         ?   LOGGER_INDEX_COLUMN_WIDTH // can use same size for both timestamp and index
-    //         :   LOGGER_DATA_COLUMN_WIDTH;
-    // }
-
     const setColumnWidth = (index) => {
-        return index === 0 
+        return index == 0 
             ?   LOGGER_INDEX_COLUMN_WIDTH 
-            :   index === 2
+            :   index == 2
                 ?   LOGGER_STAMP_COLUMN_WIDTH
                 :   LOGGER_DATA_COLUMN_WIDTH;
     }
@@ -129,14 +113,12 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
 
     
     const setRowHeight = (index) => {
-        return index % 2 === 0
+        return index % 2 == 0
             ? LOGGER_ROW_HEIGHT
             : LOGGER_ROW_HEIGHT;
     }
 
-    // have to clean up the render method. 
-    
-    // Gotta figure out how to use itemSize to my advantage
+
     return(
         <>
             <div className='ins-logger-root-layout' hasGutter>
