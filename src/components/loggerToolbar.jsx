@@ -2,27 +2,43 @@ import React, {useState, useEffect} from 'react';
 import { Toolbar , ToolbarItem, ToolbarContent } from '@patternfly/react-core';
 import { Button, ButtonVariant, InputGroup, TextInput } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
-import "@patternfly/react-core/dist/styles/base.css";
+import { AngleLeftIcon, AngleRightIcon, AngleDoubleDownIcon, AngleDoubleUpIcon } from '@patternfly/react-icons';
+import './styles/loggerToolbar.styles.scss';
+// import "@patternfly/react-core/dist/styles/base.css";
+import "@patternfly/patternfly/patternfly.css";
 
 
 const LoggerToolbar = (props) => {
     const {setSearchedInput} = props;
+    let searchInput = '';
 
+    const handleInputText = (input) => {
+        setSearchedInput(input);
+    }
 
-    const items =
-        <>
-            <ToolbarItem>
-                <InputGroup>
-                    <TextInput name='textInput1' id='textInput1' type='search' arial-label='search-input-label'/>
-                    <Button variant={ButtonVariant.control} aria-label="search button for search input">
-                        <SearchIcon />
-                    </Button>
-                </InputGroup>
-            </ToolbarItem>
+    const handleChange = () => {
+        console.log(searchInput);
+    }
+    
+    const getToolbarSearchItems = () => {
+        // This function will determine whether or not we will be displaying the inputs for moving through the iterable search indexes (for inputted keywords)
+    }
+
+    // The span needs to appear and dissapear depending on whether the logger includes a searchbar or not
+    // The lookUp/lookDown arrows need to be conditionally rendered depending on whether logger includes a searchbar or not
+
+    return(
+        <> 
+            <div className='ins-logger-toolbar'>
+                    {/* <span className='toolbar__label toolbar--left-hand'>Instances of: {`${searchInput}`}</span> */}
+                    <AngleLeftIcon className='toolbar__icons toolbar--left-hand' id='lookUp'/>
+                    <AngleRightIcon className='toolbar__icons toolbar--left-hand' id='lookDown'/>
+                    <AngleDoubleUpIcon className='toolbar__icons toolbar--right-hand' id='pageUp'/>
+                    <AngleDoubleDownIcon className='toolbar__icons toolbar--right-hand' id='pageDown'/>
+            </div>
         </>
-    ;
+    );
 
-    return <Toolbar id='toolbar'><ToolbarContent>{items}</ToolbarContent></Toolbar>
 }
 
 

@@ -1,0 +1,84 @@
+@import '@patternfly/patternfly/sass-utilities/_all';
+
+
+:root {
+    --ins-pinned-row-color: var(--pf-global--palette--gold-50);
+    --ins-action-row-color: var(--pf-global--palette--white);
+    --index-column-background-color: var(--pf-global--palette--black-300);
+    --index-font-color: var(--pf-global--Color--200);
+    --data-font-color: var(--pf-global--Color--100);
+    --data-column-background-color: var(--pf-global--BackgroundColor--100);
+    --logger-root-font-color: white;
+    --logger-root-font-color-dark: black; 
+    --sm-font-size: var(--pf-global--FontSize--sm);
+    --md-font-size: var(--pf-global--FontSize--md);
+    --logger-root-background-color: var(--pf-global--palette--black-100);
+    --higlight-row-color: var(--pf-global--BackgroundColor--200);
+}
+
+.ins-logger-cell {
+    background: var(--data-column-background-color);
+    position: absolute;
+}
+
+.ins-logger-cell__id-column {
+    background: var(--index-column-background-color);
+    right: 50px;
+    font-size: var(--sm-font-size);
+    font-weight: 400;
+}
+
+.cell--data-column {
+    background: var(--logger-root-background-color);
+    font-size: var(--md-font-size);
+}
+
+.cell--data-column:hover {
+    background: var(--higlight-row-color);
+    font-size: 105%;
+}
+
+.cell--data-column:hover + .cell--stamp-column {
+    background: var(--higlight-row-color);
+}
+
+.cell--data-column:active {
+    background: var(--data-column-background-color);
+    font-size: 100%;
+}
+
+.cell--data-column:active + .cell--stamp-column {
+    background: var(--ins-action-row-color);
+    font-size: 100%;
+}
+
+.cell--index-column {
+    color: var(--index-font-color);
+    background: var(--index-column-background-color);
+    right: 0;
+    font-weight: 400;
+}
+
+.cell--stamp-column {
+    width: 100px;
+    background: var(--logger-root-font-color);
+}
+
+.cell__index {
+    font-size: var(--sm-font-size);
+    margin: 0 40% 0 60%;
+    right: 0;
+}
+
+.cell__data {
+    margin: 0 20% 0 2.5%;
+    color: var(--data-font-color);
+}
+
+.ins-logger-cell--searched-row {
+    background: yellow;
+}
+
+.cell--pinned {
+    background: var(--ins-pinned-row-color) ;
+}

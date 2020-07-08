@@ -1,0 +1,63 @@
+@import '@patternfly/patternfly/sass-utilities/_all';
+
+
+:root {
+    --ins-toolbar-background-color: var(--pf-global--palette--black-300);
+    --ins-toolbar-border-color: var(--pf-global--palette--black-200);
+    --ins-toolbar-color: var(--pf-global--palette--black-100);
+    --ins--toolbar-icon-action-color: var(--pf-global--info-color--200);
+    --ins--toolbar-font-action-color: var(--pf-global--BackgroundColor--100);
+}
+
+.ins-logger-toolbar{
+    background: var(--ins-toolbar-color);
+    border-style: solid;
+    border-width: 1px 1px;
+    border-color: var(--ins-toolbar-border-color);
+    height: 36px;
+}
+
+.toolbar__action-buttons {
+    height: 36px;
+    position: absolute;
+    padding: 7.5px 24px 0px 24px;
+    left: 0;
+}
+
+
+.toolbar__icons {
+    width: 60px;
+    height: 34.5px;
+    padding: 8px 5px 8px 5px;
+}
+
+.toolbar__icons:hover {
+    border-style: solid;
+    border-width: 1px 1px;
+    border-color: var(--ins-toolbar-border-color);
+}
+
+
+#lookUp:active, #lookDown:active, #pageUp:active, #pageDown:active {
+    // padding: 0 6px 0 6px;
+    background-color: var(--ins--toolbar-icon-action-color);
+    color: var(--ins--toolbar-font-action-color);
+}
+
+.toolbar--left-hand {
+    float: left;
+    // margin: 0 0 0 10px;
+}
+
+.toolbar--right-hand {
+    float: right;
+    // margin: 0 8px 0 0; 
+
+}
+
+
+.toolbar--text-input {
+    background-color: green;
+    margin-right: 500px;
+    width: 3000px;
+}
