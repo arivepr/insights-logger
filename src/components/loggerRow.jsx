@@ -2,7 +2,6 @@ import React, {useEffect, useState, memo} from 'react';
 import {Flex, FlexItem, FlexItemProps} from '@patternfly/react-core';
 import Constants from '../utils/constants';
 import classNames from 'classnames';
-
 import './styles/loggerRow.styles.scss';
 
 /* 

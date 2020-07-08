@@ -112,12 +112,6 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
     }
 
 
-    // const setColumnWidth = (index) => {
-    //     return index === 0 || index == 2
-    //         ?   LOGGER_INDEX_COLUMN_WIDTH // can use same size for both timestamp and index
-    //         :   LOGGER_DATA_COLUMN_WIDTH;
-    // }
-
     const setColumnWidth = (index) => {
         return index === 0 
             ?   LOGGER_INDEX_COLUMN_WIDTH 
