@@ -2,6 +2,8 @@
 
 
 :root {
+    --ins-pinned-row-color: var(--pf-global--palette--gold-50);
+    --ins-action-row-color: var(--pf-global--palette--white);
     --index-column-background-color: var(--pf-global--palette--black-300);
     --index-font-color: var(--pf-global--Color--200);
     --data-font-color: var(--pf-global--Color--100);
@@ -36,10 +38,17 @@
     font-size: 105%;
 }
 
-
+.cell--data-column:hover + .cell--stamp-column {
+    background: var(--higlight-row-color);
+}
 
 .cell--data-column:active {
     background: var(--data-column-background-color);
+    font-size: 100%;
+}
+
+.cell--data-column:active + .cell--stamp-column {
+    background: var(--ins-action-row-color);
     font-size: 100%;
 }
 
@@ -48,6 +57,11 @@
     background: var(--index-column-background-color);
     right: 0;
     font-weight: 400;
+}
+
+.cell--stamp-column {
+    width: 100px;
+    background: var(--logger-root-font-color);
 }
 
 .cell__index {
@@ -63,4 +77,8 @@
 
 .ins-logger-cell--searched-row {
     background: yellow;
+}
+
+.cell--pinned {
+    background: var(--ins-pinned-row-color) ;
 }

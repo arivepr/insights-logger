@@ -19,17 +19,16 @@
 
 .toolbar__action-buttons {
     height: 36px;
-    // position: absolute;
+    position: absolute;
     padding: 7.5px 24px 0px 24px;
     left: 0;
 }
 
 
 .toolbar__icons {
-    width: 40px;
-    height: 25px;
-    padding: 12px 5px 0 5px;
-    margin-bottom: 5px; 
+    width: 60px;
+    height: 34.5px;
+    padding: 8px 5px 8px 5px;
 }
 
 .toolbar__icons:hover {
@@ -40,18 +39,20 @@
 
 
 #lookUp:active, #lookDown:active, #pageUp:active, #pageDown:active {
-    padding: 0 6px 0 6px;
+    // padding: 0 6px 0 6px;
     background-color: var(--ins--toolbar-icon-action-color);
     color: var(--ins--toolbar-font-action-color);
 }
 
 .toolbar--left-hand {
     float: left;
-
+    // margin: 0 0 0 10px;
 }
 
 .toolbar--right-hand {
     float: right;
+    // margin: 0 8px 0 0; 
+
 }
 
 

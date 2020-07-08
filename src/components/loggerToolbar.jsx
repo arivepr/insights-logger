@@ -25,18 +25,16 @@ const LoggerToolbar = (props) => {
     }
 
     // The span needs to appear and dissapear depending on whether the logger includes a searchbar or not
-
+    // The lookUp/lookDown arrows need to be conditionally rendered depending on whether logger includes a searchbar or not
 
     return(
         <> 
             <div className='ins-logger-toolbar'>
-                    {/* <div className='toolbar__action-buttons'> */} 
-                        <span className='toolbar__label toolbar--left-hand'></span>
-                        <AngleLeftIcon className='toolbar__icons toolbar--left-hand' id='lookUp'/>
-                        <AngleRightIcon className='toolbar__icons toolbar--left-hand' id='lookDown'/>
-                        <AngleDoubleUpIcon className='toolbar__icons toolbar--right-hand' id='pageUp'/>
-                        <AngleDoubleDownIcon className='toolbar__icons toolbar--right-hand' id='pageDown'/>
-                    {/* </div> */}
+                    {/* <span className='toolbar__label toolbar--left-hand'>Instances of: {`${searchInput}`}</span> */}
+                    <AngleLeftIcon className='toolbar__icons toolbar--left-hand' id='lookUp'/>
+                    <AngleRightIcon className='toolbar__icons toolbar--left-hand' id='lookDown'/>
+                    <AngleDoubleUpIcon className='toolbar__icons toolbar--right-hand' id='pageUp'/>
+                    <AngleDoubleDownIcon className='toolbar__icons toolbar--right-hand' id='pageDown'/>
             </div>
         </>
     );

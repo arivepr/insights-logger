@@ -41,16 +41,16 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
 
     const cellClassname = classNames( 'ins-logger-cell', {
         'cell--index-column': columnIndex == 0,
-        'cell--data-column': columnIndex == 1  
+        'cell--data-column': columnIndex == 1, 
+        'cell--stamp-column': columnIndex == 2 
     });
 
     const cellSpanClassname = classNames({
         'cell__index': columnIndex == 0,
-        'cell__data': columnIndex == 1
+        'cell__data': columnIndex == 1,
+        'cell__stamp': columnIndex == 2  
     });
     
-
-
     // lookForItemRow(searchedInput);
     
     // useEffect(() => {
