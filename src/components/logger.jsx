@@ -18,7 +18,7 @@ const LOGGER_COLUMNS_AMOUNT = 3;
 const LOGGER_DATA_COLUMN_INDEX = 1;
 const LOGGER_INDEX_COLUMN_WIDTH = 80;
 const LOGGER_DATA_COLUMN_WIDTH = 800;
-const LOGGER_STAMP_COLUMN_WIDTH = 100;
+const LOGGER_STAMP_COLUMN_WIDTH = 102;
 const LOGGER_ROW_HEIGHT = 50;
 
 // const {LOGGER_COLUMNS_AMOUNT, LOGGER_INDEX_COLUMN_WIDTH, LOGGER_DATA_COLUMN_WIDTH, LOGGER_ROW_HEIGHT} = Constants;
@@ -112,11 +112,20 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
     }
 
 
+    // const setColumnWidth = (index) => {
+    //     return index === 0 || index == 2
+    //         ?   LOGGER_INDEX_COLUMN_WIDTH // can use same size for both timestamp and index
+    //         :   LOGGER_DATA_COLUMN_WIDTH;
+    // }
+
     const setColumnWidth = (index) => {
-        return index === 0 || index == 2
-            ?   LOGGER_INDEX_COLUMN_WIDTH // can use same size for both timestamp and index
-            :   LOGGER_DATA_COLUMN_WIDTH;
+        return index === 0 
+            ?   LOGGER_INDEX_COLUMN_WIDTH 
+            :   index === 2
+                ?   LOGGER_STAMP_COLUMN_WIDTH
+                :   LOGGER_DATA_COLUMN_WIDTH;
     }
+
 
     
     const setRowHeight = (index) => {
