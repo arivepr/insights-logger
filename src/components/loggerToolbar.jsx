@@ -8,22 +8,36 @@ import './styles/loggerToolbar.styles.scss';
 import "@patternfly/patternfly/patternfly.css";
 
 
-const LoggerToolbar = (props) => {
-    const {setSearchedInput} = props;
+const LoggerToolbar = ({searchedWordIndexes, itemCount, itemsPerPage, loggerRef, isSearching}) => {
     let searchInput = '';
 
-    const handleInputText = (input) => {
-        setSearchedInput(input);
-    }
-
-    const handleChange = () => {
-        console.log(searchInput);
-    }
-    
     const getToolbarSearchItems = () => {
         // This function will determine whether or not we will be displaying the inputs for moving through the iterable search indexes (for inputted keywords)
     }
 
+    const handlePageDown = () => {
+        console.log('Moving down! --- Heres my loggerRef: ', loggerRef);
+        console.log('Heres my item count: ', itemCount);
+        loggerRef.current.scrollToItem({
+            columnIndex:1,
+            rowIndex: itemCount
+        });
+    }
+
+    const handlePageUp = () => {
+        loggerRef.current.scrollToItem({
+            columnIndex:1,
+            rowIndex:0
+        })
+    }
+
+    const handleSkipUp = () => {
+
+    }
+
+    const handleSkipDown = () => {
+
+    }
     // The span needs to appear and dissapear depending on whether the logger includes a searchbar or not
     // The lookUp/lookDown arrows need to be conditionally rendered depending on whether logger includes a searchbar or not
 
@@ -33,8 +47,8 @@ const LoggerToolbar = (props) => {
                     {/* <span className='toolbar__label toolbar--left-hand'>Instances of: {`${searchInput}`}</span> */}
                     <AngleLeftIcon className='toolbar__icons toolbar--left-hand' id='lookUp'/>
                     <AngleRightIcon className='toolbar__icons toolbar--left-hand' id='lookDown'/>
-                    <AngleDoubleUpIcon className='toolbar__icons toolbar--right-hand' id='pageUp'/>
-                    <AngleDoubleDownIcon className='toolbar__icons toolbar--right-hand' id='pageDown'/>
+                    <AngleDoubleUpIcon className='toolbar__icons toolbar--right-hand' id='pageUp' onClick={handlePageUp}/>
+                    <AngleDoubleDownIcon className='toolbar__icons toolbar--right-hand' id='pageDown' onClick={handlePageDown}/>
                     <AngleUpIcon className='toolbar__icons toolbar--right-hand' id='skipUp'/>
                     <AngleDownIcon className='toolbar__icons toolbar--right-hand' id='skipDown'/>
             </div>

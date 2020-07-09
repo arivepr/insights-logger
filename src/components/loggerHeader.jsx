@@ -7,17 +7,19 @@ import './styles/loggerHeader.styles.scss';
 
 
 
-const LoggerHeader = ({setSearchedInput}) => {
-    const [userInput, setUserInput] = useState('')
-    let value = userInput;
+const LoggerHeader = ({setSearchedInput, searchForKeyword}) => {
+    const [searchedInput, setUserInput] = useState('')
+    let value = searchedInput;
 
     const handleChange = (value) => {
         setUserInput(value);
     }
 
     const handleSubmit = () => {
-        setSearchedInput(userInput);
-        console.log('This is now my searched input: ', userInput)
+        setSearchedInput(searchedInput);
+        console.log('This is now my searched input: ', searchedInput)
+        searchForKeyword();
+        
     }
 
     return (

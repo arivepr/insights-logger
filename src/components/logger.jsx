@@ -4,7 +4,7 @@ import LoggerRow from '../components/loggerRow';
 import LoggerToolbar from './loggerToolbar';
 import LoggerHeader from './loggerHeader';
 import memoize from 'memoize-one';
-import {LOGGER_COLUMNS_AMOUNT, LOGGER_INDEX_COLUMN_WIDTH, LOGGER_DATA_COLUMN_WIDTH, LOGGER_ROW_HEIGHT, LOGGER_STAMP_COLUMN_WIDTH} from '../utils/constants';
+import {LOGGER_COLUMNS_AMOUNT, LOGGER_INDEX_COLUMN_WIDTH, LOGGER_DATA_COLUMN_WIDTH, LOGGER_ROW_HEIGHT, LOGGER_STAMP_COLUMN_WIDTH, LOGGER_HEIGHT, LOGGER_WIDTH} from '../utils/constants';
 import MLParser from './mlParser';
 import YAML from 'yaml';
 import './styles/logger.styles.scss';
@@ -48,16 +48,13 @@ const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef) => (
     loggerRef
 }));
 
-// includes toolbar will be a boolean flag to check for before adding a toolbar to the logger (need to figure out what the best logic for this would be)
 const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searchedKeyword}) => { 
     const [parsedData, setParsedData] = useState([]);
     const [searchedInput, setSearchedInput] = useState('');
-    const [foundInputIndexes, setFoundInputIndexes] = useState([]); // Meant to be used to jump back and forth between instances of searched keyword
+    const [searchedWordIndexes, setSearchedWordIndexes] = useState([]); 
+    const [highlightedRowIndexes, setHighlightedRowIndexes] = useState([]);
     const loggerRef = React.useRef();
     const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef); 
-
-    // Need to make sure to use complete separate word for search. 
-    // Only the action bottons on the toolbar will look for these instances of searches. 
 
     useEffect(() => {
         isPayloadConsole 
@@ -66,7 +63,7 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
     }, []);
 
 
-    const lookForKeywordRow = () => {
+    const searchForKeyword = () => {
         // Hacky solution to our search problem. This will have to be reworked for jumping between instances of found strings. 
         let rowIndexCounter = 0;
         
@@ -91,6 +88,14 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
         }
     }
 
+    const calculateItemsPerPage = () => {
+        return Math.round(LOGGER_HEIGHT / LOGGER_ROW_HEIGHT); // This will have to change with collapsible rows
+    }
+
+    const highlightRow = (rowIndex) => {
+        // Gonna use this function to highlight a specific row
+    } 
+
 
     const scrollToKeywordRow = (rowIndex) => {
         // for now let's just reset the search input, but we want to add to the counter so that we are able to jump back and forth from all iterations of the same keyword
@@ -102,6 +107,7 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
     }
 
 
+
     const setColumnWidth = (index) => {
         return index == 0 
             ?   LOGGER_INDEX_COLUMN_WIDTH 
@@ -109,7 +115,6 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
                 ?   LOGGER_STAMP_COLUMN_WIDTH
                 :   LOGGER_DATA_COLUMN_WIDTH;
     }
-
 
     
     const setRowHeight = (index) => {
@@ -125,10 +130,16 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
                 <div className='logger__header'>
                     <LoggerHeader 
                         setSearchedInput={setSearchedInput}
+                        searchForKeyword={searchForKeyword}
                     />
                 </div>
                 <div className='logger__toolbar'> 
-                    <LoggerToolbar />
+                    <LoggerToolbar 
+                        loggerRef={loggerRef}
+                        itemCount={parsedData.length}
+                        searchedWordIndexes={searchedWordIndexes}
+                        itemsPerPage={calculateItemsPerPage}
+                    />
                 </div>
                     <Grid 
                         className='logger__grid'
@@ -136,13 +147,15 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
                         columnCount={LOGGER_COLUMNS_AMOUNT}
                         columnWidth={index => setColumnWidth(index)}
                         rowHeight={index => setRowHeight(index)}
-                        height={600}
-                        width={1000}
+                        height={LOGGER_HEIGHT}
+                        width={LOGGER_WIDTH}
                         itemSize={30}
                         itemCount={parsedData.length}
                         itemData={dataToRender}
                         overscanCount={1}
                         ref={loggerRef}
+                        highlightedRowIndexes={highlightedRowIndexes}
+                        setHighlightedRowIndexes={setHighlightedRowIndexes}
                     >
                         {LoggerRow}
                     </Grid>

@@ -28,49 +28,49 @@
     font-weight: 400;
 }
 
-.cell--data-column {
+.cell__data-column {
     background: var(--logger-root-background-color);
     font-size: var(--md-font-size);
 }
 
-.cell--data-column:hover {
+.cell__data-column:hover {
     background: var(--higlight-row-color);
     font-size: 105%;
 }
 
-.cell--data-column:hover + .cell--stamp-column {
+.cell__data-column:hover + .cell__stamp-column {
     background: var(--higlight-row-color);
 }
 
-.cell--data-column:active {
+.cell__data-column:active {
     background: var(--data-column-background-color);
     font-size: 100%;
 }
 
-.cell--data-column:active + .cell--stamp-column {
+.cell__data-column:active + .cell__stamp-column {
     background: var(--ins-action-row-color);
     font-size: 100%;
 }
 
-.cell--index-column {
+.cell__index-column {
     color: var(--index-font-color);
     background: var(--index-column-background-color);
     right: 0;
     font-weight: 400;
 }
 
-.cell--stamp-column {
+.cell__stamp-column {
     width: 100px;
     background: var(--logger-root-font-color);
 }
 
-.cell__index {
+.cell__index-span {
     font-size: var(--sm-font-size);
     margin: 0 40% 0 60%;
     right: 0;
 }
 
-.cell__data {
+.cell__data-span {
     margin: 0 20% 0 2.5%;
     color: var(--data-font-color);
 }
@@ -79,6 +79,6 @@
     background: yellow;
 }
 
-.cell--pinned {
+.cell--highlighted, .cell--highlighted + .cell__stamp-column {
     background: var(--ins-pinned-row-color) ;
 }
