@@ -69,9 +69,18 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
             : setParsedData('');  // We would substitute parseConsoleOutput with something that would parse the correct thing(whatever that is)
     }, []);
 
+    useEffect(() => {
+        console.log('we now have something: ', searchedWordIndexes);
+
+        if(searchedWordIndexes.length !== 0)
+            scrollToRow(searchedWordIndexes[0]);
+
+    }, [searchedWordIndexes])
+
 
     const searchForKeyword = () => {
         let rowIndexCounter = 0;
+        let searchResults = [];
     
         
         if(searchedInput.match(':')){
@@ -86,16 +95,15 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
            
             if(keywordIndexPosition !== -1){
                 console.log('Keyword position: ', rowIndexCounter);
-                setSearchedWordIndexes(searchedWordIndexes => [...searchedWordIndexes, rowIndexCounter]);
+                searchResults.push(rowIndexCounter);
                 console.log('LO TENGO');
                 console.log('Searched word: ', searchedInput);
-                console.log('Our current index array: ', searchedWordIndexes);
+                console.log('Our current index array: ', searchResults);
             }
-
             rowIndexCounter++;
         }
 
-        scrollToRow(searchedWordIndexes[0]);
+        setSearchedWordIndexes(searchedWordIndexes => [...searchResults]); // gonna need a way for the user to clear these
     }
 
     const calculateItemsPerPage = () => {
