@@ -9,7 +9,10 @@ import './styles/loggerHeader.styles.scss';
 
 const LoggerHeader = ({setSearchedInput, searchedInput, searchForKeyword}) => {
     const [userInput, setUserInput] = useState('')
+    const disablingFlag = searchedInput == '' ? true : false;
     let value = userInput;
+
+    console.log('Ou disabling flag: ', disablingFlag);
 
 
     const handleChange = (value) => {
@@ -36,6 +39,7 @@ const LoggerHeader = ({setSearchedInput, searchedInput, searchForKeyword}) => {
                 onClick={handleSubmit}
                 className='ins-header__btn'
                 variant='control'
+                isDisabled={disablingFlag}
             >
                 <SearchIcon />
             </Button>

@@ -62,37 +62,40 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
     const loggerRef = React.useRef();
     const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef, rowInFocus, highlightedRowIndexes, setHighlightedRowIndexes); 
 
+
     useEffect(() => {
         isPayloadConsole 
             ? setParsedData(parseConsoleOutput(data.message.payload.console))
             : setParsedData('');  // We would substitute parseConsoleOutput with something that would parse the correct thing(whatever that is)
-    }, []);
+    }, [searchedInput]);
 
 
     const searchForKeyword = () => {
-        // Hacky solution to our search problem. This will have to be reworked for jumping between instances of found strings. 
         let rowIndexCounter = 0;
-        console.log('About to start disecting this thing..');
-        console.log('Voy a estar buscando esto ahora: ', searchedInput);
+    
         
-        if(!searchedInput == ""){
-            for(const row of parsedData){
-                const keywordIndexPosition = row.search(searchedInput)
-                const foundFlag = keywordIndexPosition === -1 
-                        ? false
-                        : scrollToRow(rowIndexCounter);
-                
-                console.log('Found flag ', foundFlag);
+        if(searchedInput.match(':')){
+            const splitInput = searchedInput.split(':');
+            console.log('This is what we get after splitting: ', splitInput);
+            scrollToRow(parseInt(splitInput[1])); // Needs Verification/Clean Up later
+            setSearchedInput('');
+            return;
+        } 
+        
+        for(const row of parsedData){
+            const keywordIndexPosition = row.search(searchedInput)
+            const foundFlag = keywordIndexPosition === -1 
+                    ? false
+                    : scrollToRow(rowIndexCounter);
+            
+            console.log('Found flag ', foundFlag);
 
-                if (foundFlag)
-                    break;
-                else 
-                    rowIndexCounter++;
+            if (foundFlag)
+                break;
+            else 
+                rowIndexCounter++;
 
-                console.log('We are in row: ', rowIndexCounter);
-            }
-        } else {
-            loggerRef.current.scrollToItem(0);
+            console.log('We are in row: ', rowIndexCounter);
         }
     }
 
