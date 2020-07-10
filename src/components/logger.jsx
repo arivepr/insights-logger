@@ -14,7 +14,7 @@ import "@patternfly/patternfly/patternfly.css";
 
 
 // To be moved as a helper function to mlParser
-const cleanUpStringArray = (data) => {
+const cleanUpStringArray = (data) => { // Needs refactoring and refinement *later*
     const cleaninRegEx = new RegExp('(\s+\\+[a-zA-Z])|"|(\n\s)');
     let cleanArray = [];
     let s = "";
@@ -42,7 +42,7 @@ const parseConsoleOutput = (data) => {
     return cleanUpStringArray(cleanString);
 }
 
-// Wrapping multiple variables around memoization to rerender loggerRow only when these change, and two send both through a single obj. 
+// Wrapping multiple variables around memoization to rerender loggerRow only when these change, and to send both through a single obj. 
 const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef, rowInFocus, pinnedRowIndexes, setPinnedRowIndexes, searchedWordIndexes) => ({
     parsedData, 
     searchedInput,
@@ -67,7 +67,7 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
         isPayloadConsole 
             ? setParsedData(parseConsoleOutput(data.message.payload.console))
             : setParsedData('');  // We would substitute parseConsoleOutput with something that would parse the correct thing(whatever that is)
-    }, [searchedInput]);
+    }, []);
 
 
     const searchForKeyword = () => {
@@ -76,27 +76,26 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
         
         if(searchedInput.match(':')){
             const splitInput = searchedInput.split(':');
-            console.log('This is what we get after splitting: ', splitInput);
-            scrollToRow(parseInt(splitInput[1])); // Needs Verification/Clean Up later
+            scrollToRow(parseInt(splitInput[1])); // Needs input validation/Clean Up for readability later
             setSearchedInput('');
             return;
         } 
         
         for(const row of parsedData){
-            const keywordIndexPosition = row.search(searchedInput)
-            const foundFlag = keywordIndexPosition === -1 
-                    ? false
-                    : scrollToRow(rowIndexCounter);
-            
-            console.log('Found flag ', foundFlag);
+            const keywordIndexPosition = row.search(searchedInput);
+           
+            if(keywordIndexPosition !== -1){
+                console.log('Keyword position: ', rowIndexCounter);
+                setSearchedWordIndexes(searchedWordIndexes => [...searchedWordIndexes, rowIndexCounter]);
+                console.log('LO TENGO');
+                console.log('Searched word: ', searchedInput);
+                console.log('Our current index array: ', searchedWordIndexes);
+            }
 
-            if (foundFlag)
-                break;
-            else 
-                rowIndexCounter++;
-
-            console.log('We are in row: ', rowIndexCounter);
+            rowIndexCounter++;
         }
+
+        scrollToRow(searchedWordIndexes[0]);
     }
 
     const calculateItemsPerPage = () => {
