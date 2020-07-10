@@ -13,23 +13,24 @@ import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/patternfly.css";
 
 
+// To be moved as a helper function to mlParser
 const cleanUpStringArray = (data) => {
     const cleaninRegEx = new RegExp('(\s+\\+[a-zA-Z])|"|(\n\s)');
     let cleanArray = [];
     let s = "";
     let spaceCounter = 0;
 
-    for (s of data){
-        if(!cleaninRegEx.test(s)){
-            if (s !== "" ){
-                spaceCounter++;
-                cleanArray.push(s)
-            }
-        }
-    }   
+    // for (s of data){
+    //     if(!cleaninRegEx.test(s)){
+    //         if (s !== "" ){
+    //             spaceCounter++;
+    //             cleanArray.push(s)
+    //         }
+    //     }
+    // }   
 
-    return cleanArray;
-    // return data;
+    // return cleanArray;
+    return data;
 };
 
 // To be moved as a helper function to mlParser
@@ -42,19 +43,24 @@ const parseConsoleOutput = (data) => {
 }
 
 // Wrapping multiple variables around memoization to rerender loggerRow only when these change, and two send both through a single obj. 
-const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef) => ({
+const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef, rowInFocus, pinnedRowIndexes, setPinnedRowIndexes, searchedWordIndexes) => ({
     parsedData, 
     searchedInput,
-    loggerRef
+    loggerRef,
+    rowInFocus, 
+    highlightedRowIndexes: pinnedRowIndexes,
+    setHighlightedRowIndexes: setPinnedRowIndexes, 
+    searchedWordIndexes
 }));
 
-const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searchedKeyword}) => { 
+const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, isPayloadConsole, searchedKeyword}) => { 
     const [parsedData, setParsedData] = useState([]);
     const [searchedInput, setSearchedInput] = useState('');
     const [searchedWordIndexes, setSearchedWordIndexes] = useState([]); 
-    const [highlightedRowIndexes, setHighlightedRowIndexes] = useState([]);
+    const [highlightedRowIndexes, setHighlightedRowIndexes] = useState([]); // Pending refactoring of useState to just grabbing a whole object for all indexes 
+    const [rowInFocus, setRowInFocus] = useState();
     const loggerRef = React.useRef();
-    const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef); 
+    const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef, rowInFocus, highlightedRowIndexes, setHighlightedRowIndexes); 
 
     useEffect(() => {
         isPayloadConsole 
@@ -66,13 +72,15 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
     const searchForKeyword = () => {
         // Hacky solution to our search problem. This will have to be reworked for jumping between instances of found strings. 
         let rowIndexCounter = 0;
+        console.log('About to start disecting this thing..');
+        console.log('Voy a estar buscando esto ahora: ', searchedInput);
         
         if(!searchedInput == ""){
             for(const row of parsedData){
                 const keywordIndexPosition = row.search(searchedInput)
                 const foundFlag = keywordIndexPosition === -1 
                         ? false
-                        : scrollToKeywordRow(rowIndexCounter);
+                        : scrollToRow(rowIndexCounter);
                 
                 console.log('Found flag ', foundFlag);
 
@@ -92,20 +100,18 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
         return Math.round(LOGGER_HEIGHT / LOGGER_ROW_HEIGHT); // This will have to change with collapsible rows
     }
 
-    const highlightRow = (rowIndex) => {
-        // Gonna use this function to highlight a specific row
-    } 
 
-
-    const scrollToKeywordRow = (rowIndex) => {
-        // for now let's just reset the search input, but we want to add to the counter so that we are able to jump back and forth from all iterations of the same keyword
-        console.log('Found it at row: ', rowIndex);
-        loggerRef.current.scrollToItem(rowIndex, 'start');
-        setSearchedInput('');
-
+    const scrollToRow = (searchedRowIndex) => {
+        console.log('Found it at row: ', searchedRowIndex);
+        setRowInFocus(searchedRowIndex);
+        loggerRef.current.scrollToItem({
+            align:'center',
+            columnIndex:1,
+            rowIndex:searchedRowIndex
+        })
+        
         return true; 
     }
-
 
 
     const setColumnWidth = (index) => {
@@ -126,15 +132,19 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
 
     return(
         <>
-            <div className='ins-logger-root-layout' hasGutter>
+            <div className='ins-logger-root-layout'>
                 <div className='logger__header'>
                     <LoggerHeader 
+                        searchedInput={searchedInput}
                         setSearchedInput={setSearchedInput}
                         searchForKeyword={searchForKeyword}
                     />
                 </div>
                 <div className='logger__toolbar'> 
                     <LoggerToolbar 
+                        rowInFocus={rowInFocus}
+                        setRowInFocus={setRowInFocus}
+                        scrollToRow={scrollToRow}
                         loggerRef={loggerRef}
                         itemCount={parsedData.length}
                         searchedWordIndexes={searchedWordIndexes}
@@ -152,10 +162,7 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
                         itemSize={30}
                         itemCount={parsedData.length}
                         itemData={dataToRender}
-                        overscanCount={1}
                         ref={loggerRef}
-                        highlightedRowIndexes={highlightedRowIndexes}
-                        setHighlightedRowIndexes={setHighlightedRowIndexes}
                     >
                         {LoggerRow}
                     </Grid>
@@ -167,7 +174,9 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
 
 Logger.defaultProps =  {
     isPayloadConsole: true,
-    includesToolbar: true
+    includesToolbar: true,
+    includesLoadingStatus: true,
+    searchedKeyword: ''
 };
 
 export default Logger;

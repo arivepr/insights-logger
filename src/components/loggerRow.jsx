@@ -21,7 +21,6 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data, setHiglightedRowInd
         // searchedInput === "" ? loggerRef.current.scrollToItem(searchedIndex) : null; 
     }
 
-
     const getData = (colIndex, rowIndex) => {
        return colIndex == LOGGER_DATA_COLUMN_ID ? parsedData[rowIndex]
             : (colIndex == LOGGER_INDEX_COLUMN_ID) ? (rowIndex + LOGGER_LINE_NUMBER_INDEX_DELTA)

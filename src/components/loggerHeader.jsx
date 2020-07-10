@@ -7,26 +7,28 @@ import './styles/loggerHeader.styles.scss';
 
 
 
-const LoggerHeader = ({setSearchedInput, searchForKeyword}) => {
-    const [searchedInput, setUserInput] = useState('')
-    let value = searchedInput;
+const LoggerHeader = ({setSearchedInput, searchedInput, searchForKeyword}) => {
+    const [userInput, setUserInput] = useState('')
+    let value = userInput;
+
 
     const handleChange = (value) => {
         setUserInput(value);
+        setSearchedInput(value);
     }
 
     const handleSubmit = () => {
-        setSearchedInput(searchedInput);
-        console.log('This is now my searched input: ', searchedInput)
         searchForKeyword();
-        
+        handleChange('');
     }
+
 
     return (
         <>
             <TextInput 
                 type='text' 
                 value={value} 
+                aria-label='logger keyword search bar'
                 onChange={handleChange} 
                 className='ins-logger-header__search'    
             />
@@ -37,7 +39,6 @@ const LoggerHeader = ({setSearchedInput, searchForKeyword}) => {
             >
                 <SearchIcon />
             </Button>
-            {/* <span>Pinned Rows: </span> */}
         </>
     )
 }
