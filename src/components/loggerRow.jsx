@@ -7,6 +7,8 @@ import './styles/loggerRow.styles.scss';
 const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     const {parsedData, loggerRef, rowInFocus, setRowInFocus, setHiglightedRowIndexes} = data;
     const [isHiglighted, setIsHiglighted] = useState(false);
+    const [rowSeen, setRowSeen] = useState(false);
+
 
 
     const lookForItemRow = (searchedInput) => {
@@ -22,13 +24,7 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     } 
 
     const handleHighlightRow = (columnIndex, rowIndex) => {
-        console.log('Showeing the Data I need: ', data);
-        console.log('My indexes are: ', columnIndex, rowIndex);
-        console.log('is it highlighted? ', isHiglighted);
-
-
         isHiglighted ? setIsHiglighted(false) : setIsHiglighted(true);
-        console.log('is it highlighted? ', isHiglighted);
     }
 
     const highlightText = () => {
@@ -36,12 +32,12 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     }
 
     const handleMouseFocusEnter = () => {
-        setRowInFocus(parsedData.length + 1);
+        if(rowInFocus !== rowIndex)
+            return null;
+
+        setRowSeen(true);
     }
 
-    const handleMouseFocusLeave = () => {
-
-    }
 
     const cellClassname = classNames( 'ins-logger-cell', {
         'cell__index-column': columnIndex === 0,
@@ -50,7 +46,7 @@ const LoggerRow = memo(({columnIndex, rowIndex, style, data}) => {
     }, {
         'cell--highlighted': isHiglighted
     }, {
-        'cell--inFocus': rowIndex === rowInFocus && columnIndex === 1
+        'cell--inFocus': rowIndex === rowInFocus && !rowSeen && columnIndex === 1
     });
 
     const cellSpanClassname = classNames({

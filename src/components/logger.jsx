@@ -54,6 +54,8 @@ const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef, rowI
     searchedWordIndexes
 }));
 
+
+// Need to finish cleaning up/refactoring some redundancies in the code here
 const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, isPayloadConsole, searchedKeyword}) => { 
     const [parsedData, setParsedData] = useState([]);
     const [searchedInput, setSearchedInput] = useState('');
@@ -72,12 +74,15 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
 
 
     useEffect(() => {
-        console.log('we now have something: ', searchedWordIndexes);
-
         if(searchedWordIndexes.length !== 0)
             scrollToRow(searchedWordIndexes[0]);
 
-    }, [searchedWordIndexes])
+    }, [searchedWordIndexes]);
+
+
+    useEffect(() => {
+        scrollToRow(rowInFocus);
+    }, [rowInFocus]);
 
 
     const searchForKeyword = () => {
@@ -99,7 +104,6 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
             if(keywordIndexPosition !== -1)
                 searchResults.push(rowIndexCounter);
             
-
             rowIndexCounter++;
         }
 
@@ -111,8 +115,11 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
     }
 
 
+    const nextSearchedIndex = () => {
+        // useEffect(searchNextItem)
+    }
+
     const scrollToRow = (searchedRowIndex) => {
-        console.log('Found it at row: ', searchedRowIndex);
         setRowInFocus(searchedRowIndex);
         loggerRef.current.scrollToItem({
             align:'center',
@@ -159,6 +166,7 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
                         itemCount={parsedData.length}
                         searchedWordIndexes={searchedWordIndexes}
                         itemsPerPage={calculateItemsPerPage}
+                        nextSearchedIndex={nextSearchedIndex}
                     />
                 </div>
                     <Grid 
