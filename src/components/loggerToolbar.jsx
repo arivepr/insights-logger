@@ -6,12 +6,12 @@ import './styles/loggerToolbar.styles.scss';
 import "@patternfly/patternfly/patternfly.css";
 
 
-const LoggerToolbar = ({searchedWordIndexes, itemCount, itemsPerPage, loggerRef, isSearching, scrollToRow, rowInFocus, setRowInFocus}) => {
+const LoggerToolbar = ({searchedWordIndexes, itemCount, scrollToRow, rowInFocus, setRowInFocus}) => {
     // const []
     let searchInput = '';
 
 
-    const handlePageDown = () => { // can just call the scroll mehthod from logger component
+    const handlePageDown = () => {
         scrollToRow(itemCount);
     }
 
