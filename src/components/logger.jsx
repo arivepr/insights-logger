@@ -7,10 +7,11 @@ import memoize from 'memoize-one';
 import {LOGGER_COLUMNS_AMOUNT, LOGGER_INDEX_COLUMN_WIDTH, LOGGER_DATA_COLUMN_WIDTH, LOGGER_ROW_HEIGHT, LOGGER_STAMP_COLUMN_WIDTH, LOGGER_HEIGHT, LOGGER_WIDTH} from '../utils/constants';
 import MLParser from './mlParser';
 import YAML from 'yaml';
+
+// change how the CSS is loaded. We only need to load the base stuff once.
+import './styles/base.scss';
 import './styles/logger.styles.scss';
 import './styles/styles.css';
-import "@patternfly/react-core/dist/styles/base.css";
-import "@patternfly/patternfly/patternfly.css";
 
 
 const cleanUpStringArray = (data) => {
@@ -133,32 +134,30 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
                         searchForKeyword={searchForKeyword}
                     />
                 </div>
-                <div className='logger__toolbar'> 
-                    <LoggerToolbar 
-                        loggerRef={loggerRef}
-                        itemCount={parsedData.length}
-                        searchedWordIndexes={searchedWordIndexes}
-                        itemsPerPage={calculateItemsPerPage}
-                    />
-                </div>
-                    <Grid 
-                        className='logger__grid'
-                        rowCount={parsedData.length}
-                        columnCount={LOGGER_COLUMNS_AMOUNT}
-                        columnWidth={index => setColumnWidth(index)}
-                        rowHeight={index => setRowHeight(index)}
-                        height={LOGGER_HEIGHT}
-                        width={LOGGER_WIDTH}
-                        itemSize={30}
-                        itemCount={parsedData.length}
-                        itemData={dataToRender}
-                        overscanCount={1}
-                        ref={loggerRef}
-                        highlightedRowIndexes={highlightedRowIndexes}
-                        setHighlightedRowIndexes={setHighlightedRowIndexes}
-                    >
-                        {LoggerRow}
-                    </Grid>
+                <LoggerToolbar 
+                    loggerRef={loggerRef}
+                    itemCount={parsedData.length}
+                    searchedWordIndexes={searchedWordIndexes}
+                    itemsPerPage={calculateItemsPerPage}
+                />
+                <Grid 
+                    className='logger__grid'
+                    rowCount={parsedData.length}
+                    columnCount={LOGGER_COLUMNS_AMOUNT}
+                    columnWidth={index => setColumnWidth(index)}
+                    rowHeight={index => setRowHeight(index)}
+                    height={LOGGER_HEIGHT}
+                    width={LOGGER_WIDTH}
+                    itemSize={30}
+                    itemCount={parsedData.length}
+                    itemData={dataToRender}
+                    overscanCount={1}
+                    ref={loggerRef}
+                    highlightedRowIndexes={highlightedRowIndexes}
+                    setHighlightedRowIndexes={setHighlightedRowIndexes}
+                >
+                    {LoggerRow}
+                </Grid>
             </div>
         </>
     );

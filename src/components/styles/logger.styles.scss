@@ -15,15 +15,8 @@
     width: 1000px;
 }
 
-.logger__toolbar {
-    background: var(--ins-root-background-color--light);
-    border: thin;
-}
-
 .logger__grid {
-    border-style: solid;
-    border-width: 1px 1px;
-    border-color: var(--ins-root-border-color--light);
+    border: none;
 }
 
 .ins-loggerToolbar__search {
@@ -35,12 +28,5 @@
     background: var(--pf-global--BackgroundColor--white);
     width: 1000px;
 }
-
-.logger__header {
-    width: 800;
-    margin: 25px 0 25px 0;
-    float: none;
-}
-
 
 

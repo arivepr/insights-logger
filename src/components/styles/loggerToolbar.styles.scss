@@ -9,51 +9,16 @@
     --ins--toolbar-font-action-color: var(--pf-global--BackgroundColor--100);
 }
 
-.ins-logger-toolbar{
-    background: var(--ins-toolbar-color);
-    border-style: solid;
-    border-width: 1px 1px;
-    border-color: var(--ins-toolbar-border-color);
-    height: 36px;
+.logger__toolbar{
+    border: 1px solid var(--ins-toolbar-border-color);
 }
 
-.toolbar__action-buttons {
-    height: 36px;
-    position: absolute;
-    padding: 7.5px 24px 0px 24px;
-    left: 0;
-}
-
-
+// we're using PF's button now
 .toolbar__icons {
-    width: 60px;
-    height: 34.5px;
-    padding: 8px 5px 8px 5px;
+    padding: 6px 16px !important;
 }
 
-.toolbar__icons:hover {
-    border-style: solid;
-    border-width: 1px 1px;
-    border-color: var(--ins-toolbar-border-color);
-}
-
-
-#lookUp:active, #lookDown:active, #pageUp:active, #pageDown:active, #skipUp:active, #skipDown:active {
-    background-color: var(--ins--toolbar-icon-action-color);
-    color: var(--ins--toolbar-font-action-color);
-}
-
-.toolbar--left-hand {
-    float: left;
-    // margin: 0 0 0 10px;
-}
-
-.toolbar--right-hand {
-    float: right;
-    // margin: 0 8px 0 0; 
-
-}
-
+// Try not to use floats, they're old and crufty now
 
 .toolbar--text-input {
     background-color: green;

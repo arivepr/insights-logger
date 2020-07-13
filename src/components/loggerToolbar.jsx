@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { Toolbar , ToolbarItem, ToolbarContent } from '@patternfly/react-core';
+import { Toolbar , ToolbarItem, ToolbarContent, Level, LevelItem } from '@patternfly/react-core';
 import { Button, ButtonVariant, InputGroup, TextInput } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import { AngleLeftIcon, AngleRightIcon, AngleDownIcon, AngleUpIcon, AngleDoubleDownIcon, AngleDoubleUpIcon } from '@patternfly/react-icons';
 import './styles/loggerToolbar.styles.scss';
-// import "@patternfly/react-core/dist/styles/base.css";
-import "@patternfly/patternfly/patternfly.css";
 
 
 const LoggerToolbar = ({searchedWordIndexes, itemCount, itemsPerPage, loggerRef, isSearching}) => {
@@ -42,17 +40,18 @@ const LoggerToolbar = ({searchedWordIndexes, itemCount, itemsPerPage, loggerRef,
     // The lookUp/lookDown arrows need to be conditionally rendered depending on whether logger includes a searchbar or not
 
     return(
-        <> 
-            <div className='ins-logger-toolbar'>
-                    {/* <span className='toolbar__label toolbar--left-hand'>Instances of: {`${searchInput}`}</span> */}
-                    <AngleLeftIcon className='toolbar__icons toolbar--left-hand' id='lookUp'/>
-                    <AngleRightIcon className='toolbar__icons toolbar--left-hand' id='lookDown'/>
-                    <AngleDoubleUpIcon className='toolbar__icons toolbar--right-hand' id='pageUp' onClick={handlePageUp}/>
-                    <AngleDoubleDownIcon className='toolbar__icons toolbar--right-hand' id='pageDown' onClick={handlePageDown}/>
-                    <AngleUpIcon className='toolbar__icons toolbar--right-hand' id='skipUp'/>
-                    <AngleDownIcon className='toolbar__icons toolbar--right-hand' id='skipDown'/>
-            </div>
-        </>
+        <Level className='logger__toolbar'>
+            <LevelItem>{/* <span className='toolbar__label toolbar--left-hand'>Instances of: {`${searchInput}`}</span> */}
+                <Button variant='plain' aria-label='Look up' className='toolbar__icons'><AngleLeftIcon id='lookUp'/></Button>
+                <Button variant='plain' aria-label='Look down' className='toolbar__icons'><AngleRightIcon id='lookDown'/></Button>
+            </LevelItem>
+            <LevelItem>
+                <Button variant='plain' aria-label='Skip up' className='toolbar__icons'><AngleUpIcon id='skipUp'/></Button>
+                <Button variant='plain' aria-label='Skip down' className='toolbar__icons'><AngleDownIcon id='skipDown'/></Button>
+                <Button variant='plain' aria-label='Page up' className='toolbar__icons' onClick={handlePageUp}><AngleDoubleUpIcon id='pageUp'/></Button>
+                <Button variant='plain' aria-label='Page down' className='toolbar__icons' onClick={handlePageDown}><AngleDoubleDownIcon id='skipDown'/></Button>
+            </LevelItem>
+        </Level>
     );
 
 }
