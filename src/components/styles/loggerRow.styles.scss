@@ -7,7 +7,6 @@
     --index-column-background-color: var(--pf-global--palette--black-300);
     --index-font-color: var(--pf-global--Color--200);
     --data-font-color: var(--pf-global--Color--100);
-    --data-column-background-color: var(--pf-global--BackgroundColor--100);
     --logger-root-font-color: white;
     --logger-root-font-color-dark: black; 
     --sm-font-size: var(--pf-global--FontSize--sm);
@@ -15,16 +14,20 @@
     --logger-root-background-color: var(--pf-global--palette--black-100);
     --hover-row-color: var(--pf-global--palette--blue-50);
     --active-row-color: var(--pf-global--active-color--200);
+
+    --logger-background-color: var(--pf-global--palette--black-150);
+
     --index-border-color: var(--pf-global--palette--black-200);
+    --index-background-color: var(--pf-global--BackgroundColor--100);
 }
 
 .ins-logger-cell {
-    background: var(--data-column-background-color);
+    background: var(--logger-background-color);
     display: flex;
     align-items: center; // center everything vertically
 
     &.cell__data-column {
-        background: var(--logger-root-background-color);
+        // background: var(--logger-root-background-color);
         font-size: var(--md-font-size);
         padding-left: 16px;
         &:hover {
@@ -35,12 +38,13 @@
         }
     }
     &.cell__index-column {
+        background: var(--data-column-background-color);
         justify-content: center;  // center the row numbers
         color: var(--index-font-color);
         border-right: 1px solid var(--index-border-color);
     }
 
-    &.cell--highlighted,  &.cell--highlighted + .cell__stamp-column {
+    &.cell__data-column.cell--highlighted,  &.cell__data-column.cell--highlighted + .cell__stamp-column {
         background: var(--active-row-color) ;
     }
 }

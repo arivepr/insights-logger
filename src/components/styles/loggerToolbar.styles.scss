@@ -1,5 +1,6 @@
 @import '@patternfly/patternfly/sass-utilities/_all';
 
+// don't use floats, they're old. We have Flex now which solves everything float wanted to be
 
 :root {
     --ins-toolbar-background-color: var(--pf-global--palette--black-300);
@@ -15,10 +16,8 @@
 
 // we're using PF's button now
 .toolbar__icons {
-    padding: 6px 16px !important;
+    padding: 6px 16px !important; // this !important will go away when we put it in app
 }
-
-// Try not to use floats, they're old and crufty now
 
 .toolbar--text-input {
     background-color: green;
