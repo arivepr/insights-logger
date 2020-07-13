@@ -31,6 +31,7 @@ const LoggerToolbar = ({searchedWordIndexes, itemCount, itemsPerPage, loggerRef,
         })
     }
 
+
     const handleSkipUp = () => {
 
     }

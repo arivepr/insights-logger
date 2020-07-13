@@ -1,5 +1,5 @@
 import React, {useEffect, useState, memo, useRef} from 'react';
-import { VariableSizeGrid as Grid, areEqual } from 'react-window'; // This is something that we'll need for transition to more complete logger
+import { VariableSizeGrid as Grid, areEqual } from 'react-window'; 
 import LoggerRow from '../components/loggerRow';
 import LoggerToolbar from './loggerToolbar';
 import LoggerHeader from './loggerHeader';
@@ -43,13 +43,14 @@ const parseConsoleOutput = (data) => {
 }
 
 // Wrapping multiple variables around memoization to rerender loggerRow only when these change, and to send both through a single obj. 
-const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef, rowInFocus, pinnedRowIndexes, setPinnedRowIndexes, searchedWordIndexes) => ({
+const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef, rowInFocus, setRowInFocus, highlightedRowIndexes, setHighlightedRowIndexes, searchedWordIndexes) => ({
     parsedData, 
     searchedInput,
     loggerRef,
-    rowInFocus, 
-    highlightedRowIndexes: pinnedRowIndexes,
-    setHighlightedRowIndexes: setPinnedRowIndexes, 
+    rowInFocus,
+    setRowInFocus, 
+    highlightedRowIndexes,
+    setHighlightedRowIndexes, 
     searchedWordIndexes
 }));
 
@@ -58,9 +59,9 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
     const [searchedInput, setSearchedInput] = useState('');
     const [searchedWordIndexes, setSearchedWordIndexes] = useState([]); 
     const [highlightedRowIndexes, setHighlightedRowIndexes] = useState([]); // Pending refactoring of useState to just grabbing a whole object for all indexes 
-    const [rowInFocus, setRowInFocus] = useState();
+    const [rowInFocus, setRowInFocus] = useState('');
     const loggerRef = React.useRef();
-    const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef, rowInFocus, highlightedRowIndexes, setHighlightedRowIndexes); 
+    const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef, rowInFocus, setRowInFocus, highlightedRowIndexes, setHighlightedRowIndexes, searchedWordIndexes); 
 
 
     useEffect(() => {
@@ -68,6 +69,7 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
             ? setParsedData(parseConsoleOutput(data.message.payload.console))
             : setParsedData('');  // We would substitute parseConsoleOutput with something that would parse the correct thing(whatever that is)
     }, []);
+
 
     useEffect(() => {
         console.log('we now have something: ', searchedWordIndexes);
@@ -91,15 +93,13 @@ const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, is
         } 
         
         for(const row of parsedData){
-            const keywordIndexPosition = row.search(searchedInput);
+            const lowerCaseRow = row.toLowerCase();
+            const keywordIndexPosition = lowerCaseRow.search(searchedInput);
            
-            if(keywordIndexPosition !== -1){
-                console.log('Keyword position: ', rowIndexCounter);
+            if(keywordIndexPosition !== -1)
                 searchResults.push(rowIndexCounter);
-                console.log('LO TENGO');
-                console.log('Searched word: ', searchedInput);
-                console.log('Our current index array: ', searchResults);
-            }
+            
+
             rowIndexCounter++;
         }
 

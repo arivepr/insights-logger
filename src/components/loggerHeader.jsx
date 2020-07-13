@@ -17,7 +17,7 @@ const LoggerHeader = ({setSearchedInput, searchedInput, searchForKeyword}) => {
 
     const handleChange = (value) => {
         setUserInput(value);
-        setSearchedInput(value);
+        setSearchedInput(value.toLowerCase());
     }
 
     const handleSubmit = () => {
