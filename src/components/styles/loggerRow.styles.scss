@@ -13,6 +13,9 @@
             // font-size: 105%; We don't want to change the font-size for this. Background should be enough
             & + .cell__stamp-column { background: var(--hover-row-color) }
         }
+        &.cell--inFocus, &.cell--inFocus + .cell__stamp-column {
+            background: var(--pf-global--palette--light-green-100);
+        }
     }
     &.cell__index-column {
         background: var(--data-column-background-color);
@@ -29,12 +32,3 @@
 .ins-logger-cell--searched-row {
     background: yellow;
 }
-
-// .cell--highlighted, .cell--highlighted + .cell__stamp-column {
-//     background: var(--ins-pinned-row-color) ;
-// }
-
-.cell--inFocus{
-    background: var(--higlight-row-color);
-}
-
