@@ -29,3 +29,12 @@
 .ins-logger-cell--searched-row {
     background: yellow;
 }
+
+// .cell--highlighted, .cell--highlighted + .cell__stamp-column {
+//     background: var(--ins-pinned-row-color) ;
+// }
+
+.cell--inFocus{
+    background: var(--higlight-row-color);
+}
+

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, memo, useRef} from 'react';
-import { VariableSizeGrid as Grid, areEqual } from 'react-window'; // This is something that we'll need for transition to more complete logger
+import { VariableSizeGrid as Grid, areEqual } from 'react-window'; 
 import LoggerRow from '../components/loggerRow';
 import LoggerToolbar from './loggerToolbar';
 import LoggerHeader from './loggerHeader';
@@ -14,23 +14,24 @@ import './styles/logger.styles.scss';
 import './styles/styles.css';
 
 
-const cleanUpStringArray = (data) => {
+// To be moved as a helper function to mlParser
+const cleanUpStringArray = (data) => { // Needs refactoring and refinement *later*
     const cleaninRegEx = new RegExp('(\s+\\+[a-zA-Z])|"|(\n\s)');
     let cleanArray = [];
     let s = "";
     let spaceCounter = 0;
 
-    for (s of data){
-        if(!cleaninRegEx.test(s)){
-            if (s !== "" ){
-                spaceCounter++;
-                cleanArray.push(s)
-            }
-        }
-    }   
+    // for (s of data){
+    //     if(!cleaninRegEx.test(s)){
+    //         if (s !== "" ){
+    //             spaceCounter++;
+    //             cleanArray.push(s)
+    //         }
+    //     }
+    // }   
 
-    return cleanArray;
-    // return data;
+    // return cleanArray;
+    return data;
 };
 
 // To be moved as a helper function to mlParser
@@ -42,20 +43,29 @@ const parseConsoleOutput = (data) => {
     return cleanUpStringArray(cleanString);
 }
 
-// Wrapping multiple variables around memoization to rerender loggerRow only when these change, and two send both through a single obj. 
-const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef) => ({
+// Wrapping multiple variables around memoization to rerender loggerRow only when these change, and to send both through a single obj. 
+const createLoggerDataItem = memoize((parsedData, searchedInput, loggerRef, rowInFocus, setRowInFocus, highlightedRowIndexes, setHighlightedRowIndexes, searchedWordIndexes) => ({
     parsedData, 
     searchedInput,
-    loggerRef
+    loggerRef,
+    rowInFocus,
+    setRowInFocus, 
+    highlightedRowIndexes,
+    setHighlightedRowIndexes, 
+    searchedWordIndexes
 }));
 
-const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searchedKeyword}) => { 
+
+// Need to finish cleaning up/refactoring some redundancies in the code here
+const Logger = memo(({logTitle, includesToolbar, includesLoadingStatus ,data, isPayloadConsole, searchedKeyword}) => { 
     const [parsedData, setParsedData] = useState([]);
     const [searchedInput, setSearchedInput] = useState('');
     const [searchedWordIndexes, setSearchedWordIndexes] = useState([]); 
-    const [highlightedRowIndexes, setHighlightedRowIndexes] = useState([]);
+    const [highlightedRowIndexes, setHighlightedRowIndexes] = useState([]); // Pending refactoring of useState to just grabbing a whole object for all indexes 
+    const [rowInFocus, setRowInFocus] = useState('');
     const loggerRef = React.useRef();
-    const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef); 
+    const dataToRender = createLoggerDataItem(parsedData, searchedInput, loggerRef, rowInFocus, setRowInFocus, highlightedRowIndexes, setHighlightedRowIndexes, searchedWordIndexes); 
+
 
     useEffect(() => {
         isPayloadConsole 
@@ -64,49 +74,62 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
     }, []);
 
 
+    useEffect(() => {
+        if(searchedWordIndexes.length !== 0)
+            scrollToRow(searchedWordIndexes[0]);
+
+    }, [searchedWordIndexes]);
+
+
+    useEffect(() => {
+        scrollToRow(rowInFocus);
+    }, [rowInFocus]);
+
+
     const searchForKeyword = () => {
-        // Hacky solution to our search problem. This will have to be reworked for jumping between instances of found strings. 
         let rowIndexCounter = 0;
+        let searchResults = [];
+    
         
-        if(!searchedInput == ""){
-            for(const row of parsedData){
-                const keywordIndexPosition = row.search(searchedInput)
-                const foundFlag = keywordIndexPosition === -1 
-                        ? false
-                        : scrollToKeywordRow(rowIndexCounter);
-                
-                console.log('Found flag ', foundFlag);
-
-                if (foundFlag)
-                    break;
-                else 
-                    rowIndexCounter++;
-
-                console.log('We are in row: ', rowIndexCounter);
-            }
-        } else {
-            loggerRef.current.scrollToItem(0);
+        if(searchedInput.match(':')){
+            const splitInput = searchedInput.split(':');
+            scrollToRow(parseInt(splitInput[1])); // Needs input validation/Clean Up for readability later
+            setSearchedInput('');
+            return;
+        } 
+        
+        for(const row of parsedData){
+            const lowerCaseRow = row.toLowerCase();
+            const keywordIndexPosition = lowerCaseRow.search(searchedInput);
+           
+            if(keywordIndexPosition !== -1)
+                searchResults.push(rowIndexCounter);
+            
+            rowIndexCounter++;
         }
+
+        setSearchedWordIndexes(searchedWordIndexes => [...searchResults]); // gonna need a way for the user to clear these
     }
 
     const calculateItemsPerPage = () => {
         return Math.round(LOGGER_HEIGHT / LOGGER_ROW_HEIGHT); // This will have to change with collapsible rows
     }
 
-    const highlightRow = (rowIndex) => {
-        // Gonna use this function to highlight a specific row
-    } 
 
-
-    const scrollToKeywordRow = (rowIndex) => {
-        // for now let's just reset the search input, but we want to add to the counter so that we are able to jump back and forth from all iterations of the same keyword
-        console.log('Found it at row: ', rowIndex);
-        loggerRef.current.scrollToItem(rowIndex, 'start');
-        setSearchedInput('');
-
-        return true; 
+    const nextSearchedIndex = () => {
+        // useEffect(searchNextItem)
     }
 
+    const scrollToRow = (searchedRowIndex) => {
+        setRowInFocus(searchedRowIndex);
+        loggerRef.current.scrollToItem({
+            align:'center',
+            columnIndex:1,
+            rowIndex:searchedRowIndex
+        })
+        
+        return true; 
+    }
 
 
     const setColumnWidth = (index) => {
@@ -127,38 +150,40 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
 
     return(
         <>
-            <div className='ins-c-logger' hasGutter>
-                <div className='logger__header'>
-                    <LoggerHeader 
-                        setSearchedInput={setSearchedInput}
-                        searchForKeyword={searchForKeyword}
-                    />
-                </div>
-                <LoggerToolbar 
-                    loggerRef={loggerRef}
-                    itemCount={parsedData.length}
-                    searchedWordIndexes={searchedWordIndexes}
-                    itemsPerPage={calculateItemsPerPage}
-                />
-                <Grid 
-                    className='logger__grid'
-                    rowCount={parsedData.length}
-                    columnCount={LOGGER_COLUMNS_AMOUNT}
-                    columnWidth={index => setColumnWidth(index)}
-                    rowHeight={index => setRowHeight(index)}
-                    height={LOGGER_HEIGHT}
-                    width={LOGGER_WIDTH}
-                    itemSize={30}
-                    itemCount={parsedData.length}
-                    itemData={dataToRender}
-                    overscanCount={1}
-                    ref={loggerRef}
-                    highlightedRowIndexes={highlightedRowIndexes}
-                    setHighlightedRowIndexes={setHighlightedRowIndexes}
-                >
-                    {LoggerRow}
-                </Grid>
-            </div>
+          <div className='ins-c-logger' hasGutter>
+              <div className='logger__header'>
+                  <LoggerHeader 
+                      searchedInput={searchedInput}
+                      setSearchedInput={setSearchedInput}
+                      searchForKeyword={searchForKeyword}
+                  />
+              </div>
+              <LoggerToolbar 
+                  rowInFocus={rowInFocus}
+                  setRowInFocus={setRowInFocus}
+                  scrollToRow={scrollToRow}
+                  loggerRef={loggerRef}
+                  itemCount={parsedData.length}
+                  searchedWordIndexes={searchedWordIndexes}
+                  itemsPerPage={calculateItemsPerPage}
+                  nextSearchedIndex={nextSearchedIndex}
+              />
+              <Grid 
+                  className='logger__grid'
+                  rowCount={parsedData.length}
+                  columnCount={LOGGER_COLUMNS_AMOUNT}
+                  columnWidth={index => setColumnWidth(index)}
+                  rowHeight={index => setRowHeight(index)}
+                  height={LOGGER_HEIGHT}
+                  width={LOGGER_WIDTH}
+                  itemSize={30}
+                  itemCount={parsedData.length}
+                  itemData={dataToRender}
+                  ref={loggerRef}
+              >
+                {LoggerRow}
+              </Grid>
+          </div>
         </>
     );
 }, areEqual);
@@ -166,7 +191,9 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
 
 Logger.defaultProps =  {
     isPayloadConsole: true,
-    includesToolbar: true
+    includesToolbar: true,
+    includesLoadingStatus: true,
+    searchedKeyword: ''
 };
 
 export default Logger;

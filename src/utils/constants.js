@@ -8,5 +8,5 @@ export const LOGGER_STAMP_COLUMN_ID = 3;
 export const LOGGER_INDEX_COLUMN_WIDTH = 48;
 export const LOGGER_DATA_COLUMN_WIDTH = 852;
 export const LOGGER_STAMP_COLUMN_WIDTH = 100;
-export const LOGGER_ROW_HEIGHT = 50;
+export const LOGGER_ROW_HEIGHT = 30;
 export const LOGGER_LINE_NUMBER_INDEX_DELTA = 1;
