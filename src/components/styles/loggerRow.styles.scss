@@ -1,89 +1,34 @@
-@import '@patternfly/patternfly/sass-utilities/_all';
-
-
-:root {
-    --ins-pinned-row-color: var(--pf-global--palette--gold-50);
-    --ins-action-row-color: var(--pf-global--palette--white);
-    --index-column-background-color: var(--pf-global--palette--black-300);
-    --index-font-color: var(--pf-global--Color--200);
-    --data-font-color: var(--pf-global--Color--100);
-    --data-column-background-color: var(--pf-global--BackgroundColor--100);
-    --logger-root-font-color: white;
-    --logger-root-font-color-dark: black; 
-    --sm-font-size: var(--pf-global--FontSize--sm);
-    --md-font-size: var(--pf-global--FontSize--md);
-    --logger-root-background-color: var(--pf-global--palette--black-100);
-    --higlight-row-color: var(--pf-global--BackgroundColor--200);
-}
-
 .ins-logger-cell {
-    background: var(--data-column-background-color);
-    position: absolute;
-}
+    background: var(--logger-background-color);
+    display: flex;
+    align-items: center; // center everything vertically
 
-.ins-logger-cell__id-column {
-    background: var(--index-column-background-color);
-    right: 50px;
-    font-size: var(--sm-font-size);
-    font-weight: 400;
-}
+    &.cell__data-column {
+        // background: var(--logger-root-background-color);
+        font-size: var(--md-font-size);
+        padding-left: 16px;
+        &:hover {
+            background: var(--hover-row-color);
+            cursor: pointer; // show the user they can click it
+            // font-size: 105%; We don't want to change the font-size for this. Background should be enough
+            & + .cell__stamp-column { background: var(--hover-row-color) }
+        }
+        &.cell--inFocus, &.cell--inFocus + .cell__stamp-column {
+            background: var(--pf-global--palette--light-green-100);
+        }
+    }
+    &.cell__index-column {
+        background: var(--data-column-background-color);
+        justify-content: center;  // center the row numbers
+        color: var(--index-font-color);
+        border-right: 1px solid var(--index-border-color);
+    }
 
-.cell__data-column {
-    background: var(--logger-root-background-color);
-    font-size: var(--md-font-size);
-}
-
-.cell__data-column:hover {
-    background: var(--higlight-row-color);
-    font-size: 105%;
-}
-
-.cell__data-column:hover + .cell__stamp-column {
-    background: var(--higlight-row-color);
-}
-
-.cell__data-column:active {
-    background: var(--data-column-background-color);
-    font-size: 100%;
-}
-
-.cell__data-column:active + .cell__stamp-column {
-    background: var(--ins-action-row-color);
-    font-size: 100%;
-}
-
-.cell__index-column {
-    color: var(--index-font-color);
-    background: var(--index-column-background-color);
-    right: 0;
-    font-weight: 400;
-}
-
-.cell__stamp-column {
-    width: 100px;
-    background: var(--logger-root-font-color);
-}
-
-.cell__index-span {
-    font-size: var(--sm-font-size);
-    margin: 0 40% 0 60%;
-    right: 0;
-}
-
-.cell__data-span {
-    margin: 0 20% 0 2.5%;
-    color: var(--data-font-color);
+    &.cell__data-column.cell--highlighted,  &.cell__data-column.cell--highlighted + .cell__stamp-column {
+        background: var(--active-row-color) ;
+    }
 }
 
 .ins-logger-cell--searched-row {
     background: yellow;
 }
-
-.cell--highlighted, .cell--highlighted + .cell__stamp-column {
-    background: var(--ins-pinned-row-color) ;
-}
-
-.cell--inFocus{
-    background: var(--higlight-row-color);
-}
-
