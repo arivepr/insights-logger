@@ -127,7 +127,7 @@ const Logger = memo(({logTitle, includesToolbar, data, isPayloadConsole, searche
 
     return(
         <>
-            <div className='ins-logger-root-layout' hasGutter>
+            <div className='ins-c-logger' hasGutter>
                 <div className='logger__header'>
                     <LoggerHeader 
                         setSearchedInput={setSearchedInput}

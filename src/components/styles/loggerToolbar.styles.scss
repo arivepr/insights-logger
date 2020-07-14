@@ -1,15 +1,4 @@
-@import '@patternfly/patternfly/sass-utilities/_all';
-
 // don't use floats, they're old. We have Flex now which solves everything float wanted to be
-
-:root {
-    --ins-toolbar-background-color: var(--pf-global--palette--black-300);
-    --ins-toolbar-border-color: var(--pf-global--palette--black-200);
-    --ins-toolbar-color: var(--pf-global--palette--black-100);
-    --ins--toolbar-icon-action-color: var(--pf-global--info-color--200);
-    --ins--toolbar-font-action-color: var(--pf-global--BackgroundColor--100);
-}
-
 .logger__toolbar{
     border: 1px solid var(--ins-toolbar-border-color);
 }

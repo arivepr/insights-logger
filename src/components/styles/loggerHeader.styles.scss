@@ -1,10 +1,3 @@
-@import '@patternfly/patternfly/sass-utilities/_all';
-
-:root {
-    --ins-global-spacer: var(--pf-global--spacer--lg);
-    --logger-border-color: var(--pf-global--palette--black-200);
-}
-
 .logger__header {
     // because this is optional, we give the toolbar below the other border
     border-top: 1px solid var(--logger-border-color);

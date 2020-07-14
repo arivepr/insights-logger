@@ -1,26 +1,3 @@
-@import '@patternfly/patternfly/sass-utilities/_all';
-
-
-:root {
-    --ins-pinned-row-color: var(--pf-global--palette--gold-50);
-    --ins-action-row-color: var(--pf-global--palette--white);
-    --index-column-background-color: var(--pf-global--palette--black-300);
-    --index-font-color: var(--pf-global--Color--200);
-    --data-font-color: var(--pf-global--Color--100);
-    --logger-root-font-color: white;
-    --logger-root-font-color-dark: black; 
-    --sm-font-size: var(--pf-global--FontSize--sm);
-    --md-font-size: var(--pf-global--FontSize--md);
-    --logger-root-background-color: var(--pf-global--palette--black-100);
-    --hover-row-color: var(--pf-global--palette--blue-50);
-    --active-row-color: var(--pf-global--active-color--200);
-
-    --logger-background-color: var(--pf-global--palette--black-150);
-
-    --index-border-color: var(--pf-global--palette--black-200);
-    --index-background-color: var(--pf-global--BackgroundColor--100);
-}
-
 .ins-logger-cell {
     background: var(--logger-background-color);
     display: flex;
