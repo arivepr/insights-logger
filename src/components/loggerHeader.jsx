@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Button, ButtonVariant, TextInput} from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons'
+import "@patternfly/react-core/dist/styles/base.css";
+import "@patternfly/patternfly/patternfly.css";
 import './styles/loggerHeader.styles.scss';
 
 
