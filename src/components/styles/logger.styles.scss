@@ -1,15 +1,46 @@
-.ins-c-logger {
-    background: var(--ins-c-logger--BackgroundColor);
+// @import '@red-hat-insights/insights-frontend-components/Utilities/_mixins';
+@import '@patternfly/patternfly/sass-utilities/_all';
+
+:root {
+    --spacing-unit: 6px;
+    --ins-index-width: 200px;
+    --ins-parsed-data-width: 700px;
+    --pf-global--BackgroundColor--white: #FFFFFF;
+    --ins-root-background-color--light: var(--pf-global--palette--black-300);
+    --ins-root-border-color--light: var(--pf-global--palette--black-100);
+}
+
+.ins-logger-root-layout {
+    background: var(--pf-global--BackgroundColor--white);
     width: 1000px;
 }
 
-.logger__grid {
-    border: none;
+.logger__toolbar {
+    background: var(--ins-root-background-color--light);
+    border: thin;
 }
 
-// .ins-loggerToolbar__title {
-//     background: var(--ins-c-logger--BackgroundColor);
-//     width: 1000px;
-// }
+.logger__grid {
+    border-style: solid;
+    border-width: 1px 1px;
+    border-color: var(--ins-root-border-color--light);
+}
+
+.ins-loggerToolbar__search {
+    position: absolute;
+    right: 0;
+}
+
+.ins-loggerToolbar__title {
+    background: var(--pf-global--BackgroundColor--white);
+    width: 1000px;
+}
+
+.logger__header {
+    width: 800;
+    margin: 25px 0 25px 0;
+    float: none;
+}
+
 
 
